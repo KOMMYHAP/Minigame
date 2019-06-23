@@ -1,3 +1,4 @@
 set(PROJECT_HEADERS
 	include/stdafx.h
-	PARENT_SCOPE)
+	PARENT_SCOPE
+	)
