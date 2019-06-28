@@ -1,1 +1,1 @@
-add_subdirectory(MessageManager)
+add_subdirectory(baselib)

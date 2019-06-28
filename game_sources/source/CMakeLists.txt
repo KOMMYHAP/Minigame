@@ -1,4 +1,3 @@
-set(PROJECT_SOURCES
-	source/main.cpp	
-	PARENT_SCOPE
-	)
+add_sources(
+	main.cpp
+)

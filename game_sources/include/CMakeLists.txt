@@ -1,4 +1,3 @@
-set(PROJECT_HEADERS
-	include/stdafx.h
-	PARENT_SCOPE
-	)
+add_sources(
+	stdafx_game.h
+)
