@@ -1,18 +1,10 @@
 #include "stdafx_game.h"
 #include "LogMessageManager.h"
-
-#include <SFML/Window.hpp>
-#include <thread>
+#include <filesystem>
 
 int WinMain(int argc, char **argv)
 {
-	{
-		LogMessageManager manager;
-		manager.WriteMessage("%d", 123);
-		manager.WriteMessage("%1% %2% %1%", 123, "ssss");
-		manager.WriteMessage("qweqweqwe");	
-	}
-
+	LOG_ERROR("qwe");
 	{
 		sf::Window w(sf::VideoMode(800, 600), "SuperDuperGame");
 		while (w.isOpen())
