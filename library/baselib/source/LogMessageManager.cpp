@@ -35,7 +35,7 @@ LogMessageManager::LogMessageManager()
 
 	m_output = [filename](const string & message)
 	{
-		std::ofstream f(filename);
+		std::ofstream f(filename, std::ios_base::app | std::ios_base::out);
 		assert(f.is_open());
 		if (f.is_open())
 		{
