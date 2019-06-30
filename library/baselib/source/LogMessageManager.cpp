@@ -1,7 +1,9 @@
 #include "basic_defs.h"
 #include "LogMessageManager.h"
 
+#define _AMD64_
 #include <processthreadsapi.h>
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>

@@ -26,5 +26,3 @@ using std::set;
 using std::list;
 
 using std::move;
-
-#define _AMD64_
