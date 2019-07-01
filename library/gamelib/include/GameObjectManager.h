@@ -10,9 +10,9 @@ class GameObjectManager : public Singleton<GameObjectManager>
 
 public:
 
-	GameObject * CreateGameObject(const string& name, GameObject * parent = nullptr);
+	GameObject * CreateGameObject(const string& name, GameObject * parent);
 	void DeleteGameObject(GameObject *);
 
 private:
-
+	size_t		m_objectsNumber {0};
 };

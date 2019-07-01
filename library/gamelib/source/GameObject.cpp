@@ -31,7 +31,10 @@ GameObject::~GameObject()
 {
 	if (m_parent)
 	{
-		m_parent->GetGroupToChange()->Detach(this);
+		if (m_parent->GetGroup())
+		{
+			m_parent->GetGroupToChange()->Detach(this);	
+		}
 		m_parent = nullptr;
 	}
 
@@ -42,23 +45,10 @@ GameObject::~GameObject()
 
 void GameObject::DetachParent()
 {
-	if (m_parent)
-	{
-		m_parent = nullptr;
-	}
+	m_parent = nullptr;
 }
 
 void GameObject::SetParent(GameObject* parent)
 {
-	if (m_parent)
-	{
-		DetachParent();
-	}
-
-	if (parent)
-	{
-		parent->GetGroupToChange()->Attach(this);
-	}
-
 	m_parent = parent;
 }

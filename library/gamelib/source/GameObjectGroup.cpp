@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "GameObjectGroup.h"
 #include "GameObjectManager.h"
+#include "LogMessageManager.h"
 
 GameObjectGroup::~GameObjectGroup()
 {
@@ -27,18 +28,29 @@ GameObjectGroup::~GameObjectGroup()
 GameObjectGroup::GameObjectGroup(GameObject* parent)
 	: m_parent(parent)
 {
-	assert(parent != nullptr && "Group of objects must have parent!");
+	assert(parent != nullptr && "Group of objects must have a parent!");
 }
 
 void GameObjectGroup::Attach(GameObject* newChild)
 {
-	assert(newChild != nullptr && newChild->GetParent() == m_parent);
-
-	if (newChild != nullptr && newChild->GetParent() == m_parent)
+	assert(newChild != nullptr);
+	if (newChild == nullptr)
 	{
-		auto [it, success] = m_children.insert(newChild);
-		assert(success && "Trying to attach already existing child!");	
+		return;
 	}
+
+	bool isValidParent = newChild->GetParent() == nullptr || newChild->GetParent() == m_parent;
+	if (!isValidParent)
+	{
+		LOG_WARNING("Game object \"%s\" already has parent \"%s\" while trying to attach to \"%s\"!", 
+			newChild->GetName(), newChild->GetParent()->GetName(), m_parent->GetName());
+		return;
+	}
+
+	newChild->SetParent(m_parent);
+
+	auto [it, success] = m_children.insert(newChild);
+	assert(success && "Trying to attach already existing child!");	
 }
 
 void GameObjectGroup::Detach(GameObject* child)
