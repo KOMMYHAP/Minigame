@@ -3,6 +3,7 @@
 
 #define _AMD64_
 #include <processthreadsapi.h>
+#include <debugapi.h>
 
 #include <filesystem>
 #include <fstream>
@@ -114,7 +115,8 @@ void LogMessageManager::WriteMessage(const string& message)
 	{
 		m_output(prefix + message);
 #ifdef _DEBUG
-		std::cerr << prefix + message << std::endl;
+		auto t = prefix + message + "\n";
+		OutputDebugStringA(t.c_str());
 #endif
 	}
 }

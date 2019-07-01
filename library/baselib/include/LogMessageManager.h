@@ -77,24 +77,18 @@ void LogMessageManager::WriteMessage(boost::format& fmt, T&& arg)
 	WriteMessage(fmt.operator%(std::forward<T>(arg)).str());	
 }
 
-#define __logger LogMessageManager::instance()
-#define __msg_type LogMessageManager::Type
+#define LOG_MESSAGE \
+	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::PLAIN, __LINE__, __FILE__), \
+	LogMessageManager::instance()->WriteMessage
 
-#define LOG_MESSAGE(str) \
-	__logger->PrepareMessage(__msg_type::PLAIN, __LINE__, __FILE__); \
-	__logger->WriteMessage(str);
+#define LOG_WARNING \
+	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::WARNING, __LINE__, __FILE__), \
+	LogMessageManager::instance()->WriteMessage
 
-#define LOG_WARNING(str) \
-	__logger->PrepareMessage(__msg_type::WARNING, __LINE__, __FILE__); \
-	__logger->WriteMessage(str);
+#define LOG_ERROR \
+	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::ERROR, __LINE__, __FILE__), \
+	LogMessageManager::instance()->WriteMessage
 
-#define LOG_ERROR(str) \
-	__logger->PrepareMessage(__msg_type::ERROR, __LINE__, __FILE__); \
-	__logger->WriteMessage(str);
-
-#define LOG_FATAL_ERROR(str) \
-	__logger->PrepareMessage(__msg_type::FATAL_ERROR, __LINE__, __FILE__); \
-	__logger->WriteMessage(str);
-
-#undef __msg_type
-#undef Logger
+#define LOG_FATAL_ERROR \
+	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::FATAL_ERROR, __LINE__, __FILE__), \
+	LogMessageManager::instance()->WriteMessage

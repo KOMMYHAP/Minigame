@@ -14,6 +14,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 	${Boost_FORMAT_LIBRARY})
 
 target_include_directories(${PROJECT_NAME}_i INTERFACE include)
-target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME}_i INTERFACE ${Boost_INCLUDE_DIR})
 
 set_precompiled_header(${PROJECT_NAME} "include/basic_defs.h")
