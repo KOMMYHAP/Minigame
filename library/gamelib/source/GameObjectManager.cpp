@@ -8,13 +8,16 @@ GameObjectManager::~GameObjectManager()
 
 }
 
-GameObject* GameObjectManager::CreateGameObject()
+GameObject* GameObjectManager::CreateGameObject(const string& name, GameObject * parent /* = nullptr */)
 {
-	return new GameObject();
+	return new GameObject(name, parent);
 }
 
 void GameObjectManager::DeleteGameObject(GameObject * object)
 {
-	delete object;
+	if (object)
+	{
+		delete object;
+	}
 }
 
