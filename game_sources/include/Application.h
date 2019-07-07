@@ -8,5 +8,5 @@ public:
 	int Run();
 
 private:
-
+	bool IsTryToShutdown() const;
 };

@@ -5,23 +5,25 @@
 
 Application::Application(int argc, char** argv)
 {
-	// parsing command line arguments
+	// parse command line arguments
 }
 
 int Application::Run()
 {
-	auto fullscreenVideoModes = sf::VideoMode::getFullscreenModes();
+	// auto fullscreenModes = sf::VideoMode::getFullscreenModes();
+	auto videoMode = sf::VideoMode(800, 600);
 
-	sf::Window window(fullscreenVideoModes[0], "Snowfall", sf::Style::Fullscreen | sf::Style::Close);
+	sf::Window window(videoMode, "Snowfall");
 	window.setFramerateLimit(60);
+
 	while (window.isOpen())
 	{
 		InputController::Instance()->ProcessInput(window);
 
-		if (InputController::Instance()->IsPressed(InputKey::ESC) ||
-			InputController::Instance()->IsPressed(InputKey::ALT) && 
-			InputController::Instance()->IsPressed(InputKey::F4))
+		if (IsTryToShutdown())
 		{
+			// break down main loop or 
+			// forward a signal into the Game to prevent user
 			break;
 		}
 
@@ -29,4 +31,10 @@ int Application::Run()
 	}
 
 	return 0;
+}
+
+bool Application::IsTryToShutdown() const
+{
+	return InputController::Instance()->IsTryToShutdown() ||
+		InputController::Instance()->IsPressed(InputKey::ESC);
 }

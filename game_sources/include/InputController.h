@@ -11,7 +11,7 @@ enum class InputKey
 	ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN,
 	SPACE,
 	LEFT_CLICK,
-	ESC, ALT, F4,
+	ESC,
 	INPUT_KEY_NUMBER
 };
 
@@ -23,10 +23,12 @@ public:
 	void ProcessInput(sf::Window & window);
 	
 	bool IsPressed(InputKey key) const { return m_keys.at(key); }
+	bool IsTryToShutdown() const { return m_isTryToShutdown; }
 
 private:
 	InputKey TranscodeKey(const sf::Event & event) const;
 	InputKey TranscodeMouse(const sf::Event & event) const;
 
 	map<InputKey, bool>		m_keys;
+	bool					m_isTryToShutdown {false};
 };

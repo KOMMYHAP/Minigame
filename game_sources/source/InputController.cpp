@@ -27,10 +27,6 @@ InputKey InputController::TranscodeKey(const sf::Event & event) const
 		return InputKey::D;
 	case sf::Keyboard::Escape:
 		return InputKey::ESC;
-	case sf::Keyboard::LAlt:
-		return InputKey::ALT;
-	case sf::Keyboard::F4:
-		return InputKey::F4;
 	default:
 		return InputKey::INPUT_KEY_NUMBER;
 	}
@@ -76,6 +72,11 @@ void InputController::ProcessInput(sf::Window & window)
 		{
 			key = TranscodeMouse(event);
 			isPressed = event.type == sf::Event::MouseButtonPressed;
+		}
+
+		if (event.type == sf::Event::Closed)
+		{
+			m_isTryToShutdown = true;
 		}
 
 		if (key != InputKey::INPUT_KEY_NUMBER)
