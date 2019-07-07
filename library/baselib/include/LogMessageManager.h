@@ -78,17 +78,17 @@ void LogMessageManager::WriteMessage(boost::format& fmt, T&& arg)
 }
 
 #define LOG_MESSAGE \
-	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::PLAIN, __LINE__, __FILE__), \
-	LogMessageManager::instance()->WriteMessage
+	LogMessageManager::Instance()->PrepareMessage(LogMessageManager::Type::PLAIN, __LINE__, __FILE__), \
+	LogMessageManager::Instance()->WriteMessage
 
 #define LOG_WARNING \
-	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::WARNING, __LINE__, __FILE__), \
-	LogMessageManager::instance()->WriteMessage
+	LogMessageManager::Instance()->PrepareMessage(LogMessageManager::Type::WARNING, __LINE__, __FILE__), \
+	LogMessageManager::Instance()->WriteMessage
 
 #define LOG_ERROR \
-	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::ERROR, __LINE__, __FILE__), \
-	LogMessageManager::instance()->WriteMessage
+	LogMessageManager::Instance()->PrepareMessage(LogMessageManager::Type::ERROR, __LINE__, __FILE__), \
+	LogMessageManager::Instance()->WriteMessage
 
 #define LOG_FATAL_ERROR \
-	LogMessageManager::instance()->PrepareMessage(LogMessageManager::Type::FATAL_ERROR, __LINE__, __FILE__), \
-	LogMessageManager::instance()->WriteMessage
+	LogMessageManager::Instance()->PrepareMessage(LogMessageManager::Type::FATAL_ERROR, __LINE__, __FILE__), \
+	LogMessageManager::Instance()->WriteMessage

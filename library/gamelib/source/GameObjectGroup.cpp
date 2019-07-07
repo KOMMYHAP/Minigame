@@ -21,7 +21,7 @@ GameObjectGroup::~GameObjectGroup()
 
 	for (auto object : objects)
 	{
-		GameObjectManager::instance()->DeleteGameObject(object);
+		GameObjectManager::Instance()->DeleteGameObject(object);
 	}
 }
 

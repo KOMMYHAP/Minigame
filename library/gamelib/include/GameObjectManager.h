@@ -9,7 +9,6 @@ class GameObjectManager : public Singleton<GameObjectManager>
 	~GameObjectManager();
 
 public:
-
 	GameObject * CreateGameObject(const string& name, GameObject * parent);
 	void DeleteGameObject(GameObject *);
 

@@ -6,7 +6,11 @@
 
 GameObjectManager::~GameObjectManager()
 {
-	assert(m_objectsNumber == 0);
+	if (m_objectsNumber != 0)
+	{
+		assert(m_objectsNumber == 0);
+		LOG_ERROR("GameObjectManager destructor: %d objects are exist yet!");
+	}
 }
 
 GameObject* GameObjectManager::CreateGameObject(const string& name, GameObject * parent)
