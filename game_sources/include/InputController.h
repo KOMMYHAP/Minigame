@@ -1,10 +1,6 @@
 #pragma once
 #include "Singleton.h"
 
-namespace sf {
-	class Window;
-}
-
 enum class InputKey
 {
 	W, A, S, D,
