@@ -18,6 +18,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} 
 	baselib
 	gamelib
+	mathlib
 	sfml-audio
 	sfml-graphics
 	${Boost_format_LIBRARY}

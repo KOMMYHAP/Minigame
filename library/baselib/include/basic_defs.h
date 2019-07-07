@@ -25,4 +25,9 @@ using std::map;
 using std::set;
 using std::list;
 
+using std::swap;
+using std::pair;
+using std::make_pair;
+
 using std::move;
+using std::forward;
