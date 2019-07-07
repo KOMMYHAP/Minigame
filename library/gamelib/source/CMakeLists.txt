@@ -3,5 +3,4 @@ add_sources(
 	GameObjectManager.cpp
 	GameObjectGroup.cpp
 	GameObjectGeometry.cpp
-	GameScene.cpp
 )

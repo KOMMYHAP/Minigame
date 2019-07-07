@@ -15,7 +15,7 @@ int Application::Run()
 	// auto fullscreenModes = sf::VideoMode::getFullscreenModes();
 	auto videoMode = sf::VideoMode(800, 600);
 
-	sf::Window window(videoMode, "Snowfall");
+	sf::Window window(videoMode, "Snowfall", sf::Style::Close | sf::Style::Titlebar);
 	window.setFramerateLimit(60);
 
 	while (window.isOpen())

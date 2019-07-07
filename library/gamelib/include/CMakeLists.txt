@@ -3,5 +3,4 @@ add_sources(
 	GameObjectManager.h
 	GameObjectGroup.h
 	GameObjectGeometry.h
-	GameScene.h
 )
