@@ -4,4 +4,5 @@ add_sources(
 	GameObjectGroup.cpp
 	GameObjectGeometry.cpp
 	GameScene.cpp
+	InputController.cpp
 )
