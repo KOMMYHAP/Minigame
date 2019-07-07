@@ -45,7 +45,7 @@ void SingletonManager::DeleteBefore(SingletonBase* whatToDelete, SingletonBase* 
 
 	auto it = std::find(m_objects.begin(), m_objects.end(), beforeWhat);
 
-	assert(it != m_objects.end() && "Cannot find specified place to delete after it!");
+	assert(it != m_objects.end() && "Cannot find specified place to delete before it!");
 	if (it == m_objects.end())
 	{
 		return;
