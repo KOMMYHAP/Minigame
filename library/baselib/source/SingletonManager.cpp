@@ -22,17 +22,11 @@ void SingletonManager::DeleteAfter(SingletonBase* whatToDelete, SingletonBase* a
 {
 	RemoveFromQueue(whatToDelete);
 
-	auto jt = std::find(m_objects.begin(), m_objects.end(), whatToDelete);
-	if (jt != m_objects.end())
-	{
-		m_objects.erase(jt);
-	}
-
 	auto it = std::find(m_objects.begin(), m_objects.end(), afterWhat);
-
-	assert(it != m_objects.end() && "Cannot find specified place to delete after it!");
 	if (it == m_objects.end())
 	{
+		DeleteLast(afterWhat);
+		DeleteLast(whatToDelete);
 		return;
 	}
 
@@ -44,10 +38,10 @@ void SingletonManager::DeleteBefore(SingletonBase* whatToDelete, SingletonBase* 
 	RemoveFromQueue(whatToDelete);
 
 	auto it = std::find(m_objects.begin(), m_objects.end(), beforeWhat);
-
-	assert(it != m_objects.end() && "Cannot find specified place to delete before it!");
 	if (it == m_objects.end())
-	{
+	{	
+		DeleteLast(whatToDelete);
+		DeleteLast(beforeWhat);
 		return;
 	}
 

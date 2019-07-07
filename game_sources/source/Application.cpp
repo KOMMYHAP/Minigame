@@ -1,7 +1,9 @@
 #include "stdafx_game.h"
 #include "Application.h"
 
+#include "LogMessageManager.h"
 #include "InputController.h"
+#include "GameObjectManager.h"
 
 Application::Application(int argc, char** argv)
 {
@@ -31,6 +33,13 @@ int Application::Run()
 	}
 
 	return 0;
+}
+
+void Application::SingletonSequenceInitialize()
+{
+	m_singletonSequence.DeleteFirst(GameObjectManager::Instance());
+	m_singletonSequence.DeleteLast(InputController::Instance());
+	m_singletonSequence.DeleteLast(LogMessageManager::Instance());
 }
 
 bool Application::IsTryToShutdown() const

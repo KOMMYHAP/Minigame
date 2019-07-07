@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SingletonManager.h"
+
 class Application
 {
 public:
@@ -8,5 +10,9 @@ public:
 	int Run();
 
 private:
+	void SingletonSequenceInitialize();
+
 	bool IsTryToShutdown() const;
+
+	SingletonManager		m_singletonSequence;
 };
