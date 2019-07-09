@@ -1,4 +1,4 @@
-#include "stdafx_game.h"
+#include "stdafx_gamelib.h"
 #include "InputController.h"
 
 #include "LogMessageManager.h"

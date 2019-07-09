@@ -1,8 +1,5 @@
 project(Game)
 
-set(SFML_DIR "${PROJECT_ROOT_DIR}/external/SFML/lib/cmake/SFML/")
-find_package(SFML 2.5 COMPONENTS window system graphics audio REQUIRED)
-
 find_package(boost 1.7 COMPONENTS format REQUIRED)
 
 add_subdirectory(include)
@@ -19,8 +16,7 @@ target_link_libraries(${PROJECT_NAME}
 	baselib
 	gamelib
 	mathlib
-	sfml-audio
-	sfml-graphics
+	sfmllib
 	${Boost_format_LIBRARY}
 	)
 

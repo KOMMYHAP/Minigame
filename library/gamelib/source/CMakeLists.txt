@@ -3,4 +3,9 @@ add_sources(
 	GameObjectManager.cpp
 	GameObjectGroup.cpp
 	GameObjectGeometry.cpp
+	
+	InputController.cpp
+	
+	ImageResource.cpp
+	VideoResource.cpp
 )

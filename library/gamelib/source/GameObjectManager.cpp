@@ -1,4 +1,4 @@
-#include "basic_defs.h"
+#include "stdafx_gamelib.h"
 
 #include "GameObjectManager.h"
 #include "GameObject.h"

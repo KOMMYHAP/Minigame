@@ -10,6 +10,9 @@ project_group(${PROJECT_NAME} library)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_NAME}_i)
 target_link_libraries(${PROJECT_NAME}_i INTERFACE 
 	baselib_i
-	mathlib_i)
+	mathlib_i
+	sfmllib_i)
 
 target_include_directories(${PROJECT_NAME}_i INTERFACE include)
+
+set_precompiled_header(${PROJECT_NAME} "include/stdafx_${PROJECT_NAME}.h")
