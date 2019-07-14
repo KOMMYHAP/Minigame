@@ -10,6 +10,7 @@
 #include <map>
 #include <set>
 #include <list>
+#include <array>
 
 using std::weak_ptr;
 using std::shared_ptr;
@@ -24,6 +25,7 @@ using std::string;
 using std::map;
 using std::set;
 using std::list;
+using std::array;
 
 using std::swap;
 using std::pair;
