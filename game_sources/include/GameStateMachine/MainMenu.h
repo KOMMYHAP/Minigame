@@ -3,6 +3,7 @@
 #include "GameStateMachine/GameScene.h"
 
 class GameObject;
+class Entity;
 
 class MainMenuScene : public GameScene
 {
@@ -20,6 +21,9 @@ public:
 private:
 	shared_ptr<Game> GetGame() const { return m_game.lock(); }
 
-	weak_ptr<Game>			m_game;
-	GameObject *			m_root {nullptr};
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+	weak_ptr<Game>				m_game;
+	GameObject *				m_parent {nullptr};
+	vector<unique_ptr<Entity>>	m_entities;
 };

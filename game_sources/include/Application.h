@@ -16,8 +16,6 @@ public:
 
 private:
 	void SingletonSequenceInitialize();
-
-	bool IsTryToShutdown() const;
 	
 	sf::VideoMode			m_videoMode;
 	sf::RenderWindow		m_window;

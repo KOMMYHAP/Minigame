@@ -7,17 +7,16 @@
 #include "GameStateMachine/MainMenu.h"
 
 #include "GameResource/ResourceHandler.h"
+#include "GameResource/ImageResource.h"
 
 MainMenuScene::~MainMenuScene()
 {
-	GameObjectManager::Instance()->Delete(m_root);
 }
 
 void MainMenuScene::Initialize(shared_ptr<Game> game)
 {
 	m_game = game;
-
-	m_root = GameObjectManager::Instance()->Create("root", nullptr);
+	m_parent = game->GetRoot();
 }
 
 void MainMenuScene::Load()
@@ -42,11 +41,15 @@ void MainMenuScene::Update(size_t dt)
 		return;
 	}
 
-	auto && window = game->GetRenderWindow();
-	
+
 }
 
 void MainMenuScene::ProcessInput()
 {
 
+}
+
+void MainMenuScene::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	
 }

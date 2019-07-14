@@ -2,7 +2,7 @@
 
 class Game;
 
-class GameScene
+class GameScene : public sf::Drawable
 {
 public:
 	virtual ~GameScene() = default;
@@ -11,7 +11,7 @@ public:
 
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
-
-	virtual void Update(size_t dt) = 0;
+	
 	virtual void ProcessInput() = 0;
+	virtual void Update(size_t dt) = 0;
 };
