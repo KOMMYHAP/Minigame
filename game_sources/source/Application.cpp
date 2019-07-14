@@ -3,24 +3,25 @@
 
 #include "LogMessageManager.h"
 #include "InputController.h"
-#include "GameObjectManager.h"
+
+#include "GameStateMachine/Game.h"
+#include "GameBasic/GameObjectManager.h"
 
 Application::Application(int argc, char** argv)
+	: m_videoMode(800, 600)
+	, m_window(m_videoMode, "Snowfall", sf::Style::Close | sf::Style::Titlebar)
+	, m_game(make_unique<Game>())
 {
-	// parse command line arguments
+	m_window.setFramerateLimit(60);
+	
+	m_game->Initialize(shared_from_this());
 }
 
 int Application::Run()
 {
-	// auto fullscreenModes = sf::VideoMode::getFullscreenModes();
-	auto videoMode = sf::VideoMode(800, 600);
-
-	sf::Window window(videoMode, "Snowfall", sf::Style::Close | sf::Style::Titlebar);
-	window.setFramerateLimit(60);
-
-	while (window.isOpen())
+	while (m_window.isOpen())
 	{
-		InputController::Instance()->ProcessInput(window);
+		InputController::Instance()->ProcessInput(m_window);
 
 		if (IsTryToShutdown())
 		{
@@ -29,7 +30,9 @@ int Application::Run()
 			break;
 		}
 
-		window.display();
+
+
+		m_window.display();
 	}
 
 	return 0;
