@@ -11,5 +11,6 @@ add_sources(
 add_sources(
 	GameResource/ResourceHandler.cpp
 	GameResource/ImageResource.cpp
+	GameResource/FontResource.cpp
 	GameResource/VideoResource.cpp
 )

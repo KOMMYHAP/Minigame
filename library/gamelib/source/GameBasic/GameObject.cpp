@@ -22,6 +22,8 @@ GameObject::GameObject(const string& name, GameObject* parent /* = nullptr */)
 		parent->GetGroupToChange()->Attach(this);
 	}
 
+	UpdateGlobalGeometry();
+
 	LOG_MESSAGE("GameObject \"%s\" created.", name);
 }
 
@@ -44,9 +46,36 @@ GameObject::~GameObject()
 void GameObject::DetachParent()
 {
 	m_parent = nullptr;
+	UpdateGlobalGeometry();
 }
 
 void GameObject::SetParent(GameObject* parent)
 {
 	m_parent = parent;
+	UpdateGlobalGeometry();
+}
+
+void GameObject::SetGeometry(const sf::Transform & transform)
+{
+	m_matrixLocal = transform;
+	UpdateGlobalGeometry();
+}
+
+void GameObject::UpdateGlobalGeometry()
+{
+	if (auto parent = GetParent())
+	{
+		auto matrix = parent->GetGlobalGeometry();
+		m_matrixGlobal = matrix * m_matrixLocal;
+	}
+	else
+	{
+		m_matrixGlobal = m_matrixLocal;
+	}
+
+	auto && children = GetGroupToChange()->GetChildrenToChange();
+	for (auto child : children)
+	{
+		child->UpdateGlobalGeometry();
+	}
 }

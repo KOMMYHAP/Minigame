@@ -17,8 +17,11 @@ public:
 	GameObject * GetParentToChange() { return m_parent; }
 	GameObject const * GetParent() const { return m_parent; }
 	
-	sf::Transform & GetGeometryToChange() { return m_geometry; }
-	sf::Transform const & GetGeometry() const { return m_geometry; }
+	void SetGeometry(const sf::Transform & transform);
+	sf::Transform const & GetGeometry() const { return m_matrixLocal; }
+
+	sf::Transform const & GetGlobalGeometry() const { return m_matrixGlobal; }
+	void UpdateGlobalGeometry();
 	
 	GameObjectGroup * GetGroupToChange() { return m_group.get(); }
 	GameObjectGroup const * GetGroup() const { return m_group.get(); }
@@ -27,9 +30,12 @@ public:
 	const string & GetName() const { return m_name; }
 
 private:
+
 	unique_ptr<GameObjectGroup>		m_group;
 	GameObject *					m_parent	{nullptr};
-	sf::Transform					m_geometry;
+
+	sf::Transform					m_matrixLocal;
+	sf::Transform					m_matrixGlobal;
 
 	string							m_name;
 };

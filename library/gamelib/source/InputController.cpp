@@ -82,7 +82,7 @@ void InputController::ProcessInput(sf::Window & window)
 		if (key != InputKey::INPUT_KEY_NUMBER)
 		{
 			m_keys[key] = isPressed;
-			LOG_MESSAGE("%d key was been pressed!", static_cast<int>(key));
+			// LOG_MESSAGE("%d key was been pressed!", static_cast<int>(key));
 		}
 
 	}

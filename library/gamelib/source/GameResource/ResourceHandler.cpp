@@ -3,6 +3,7 @@
 #include "GameResource/ResourceHandler.h"
 #include "GameResource/ImageResource.h"
 #include "GameResource/VideoResource.h"
+#include <GameResource/FontResource.h>
 
 #include "LogMessageManager.h"
 
@@ -24,6 +25,14 @@ bool ResourceHandler::Load(Resources::Type type, Resources::Id id, const string&
 			// auto res = make_unique<VideoResource>();
 			// isSuccess = res->LoadFrom(filename);
 			// m_videoes[id] = move(res);	
+			break;
+		}
+	case Resources::Type::FONT:
+		if (m_fonts.find(id) == m_fonts.end())
+		{	
+			auto res = make_unique<FontResource>();
+			isSuccess = res->LoadFrom(filename);
+			m_fonts[id] = move(res);
 			break;
 		}
 	default:
