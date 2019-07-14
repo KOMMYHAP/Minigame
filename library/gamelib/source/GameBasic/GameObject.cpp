@@ -2,9 +2,9 @@
 
 #include "LogMessageManager.h"
 
-#include "GameObject.h"
-#include "GameObjectGroup.h"
-#include "GameObjectManager.h"
+#include "GameBasic/GameObject.h"
+#include "GameBasic/GameObjectGroup.h"
+#include "GameBasic/GameObjectManager.h"
 
 GameObject::GameObject(GameObject * parent /* = nullptr */)
 	: GameObject("", parent)

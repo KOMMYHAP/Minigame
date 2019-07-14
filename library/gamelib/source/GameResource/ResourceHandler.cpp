@@ -1,9 +1,9 @@
 #include "stdafx_gamelib.h"
 
-#include "ResourceHandler.h"
+#include "GameResource/ResourceHandler.h"
+#include "GameResource/ImageResource.h"
+#include "GameResource/VideoResource.h"
 
-#include "ImageResource.h"
-#include "VideoResource.h"
 #include "LogMessageManager.h"
 
 bool ResourceHandler::Load(Resources::Type type, Resources::Id id, const string& filename)
@@ -12,10 +12,11 @@ bool ResourceHandler::Load(Resources::Type type, Resources::Id id, const string&
 	switch (type)
 	{
 	case Resources::Type::IMAGE:
-		{
+		if (m_images.find(id) == m_images.end())
+		{	
 			auto res = make_unique<ImageResource>();
 			isSuccess = res->LoadFrom(filename);
-			m_images[id] = move(res);	
+			m_images[id] = move(res);
 			break;
 		}
 	case Resources::Type::VIDEO:
@@ -32,6 +33,36 @@ bool ResourceHandler::Load(Resources::Type type, Resources::Id id, const string&
 	if (!isSuccess)
 	{
 		LOG_WARNING("Could not load resource [type = '%s'], [id = '%d'], [filename = '%s']", Resources::ToString(type), id, filename);
+	}
+
+	return isSuccess;
+}
+
+bool ResourceHandler::Unload(Resources::Type type, Resources::Id id)
+{
+	bool isSuccess = false;
+	switch (type)
+	{
+	case Resources::Type::IMAGE:
+		{
+			auto it = m_images.find(id);
+			isSuccess = it != m_images.end();
+			m_images.erase(it);
+			break;
+		}
+	// case Resources::Type::VIDEO:
+	// 	{
+	// 		auto it = m_videoes.find(id);
+	// 		m_videoes.erase(it);
+	// 		break;
+	// 	}
+	default:
+		break;
+	}
+	
+	if (!isSuccess)
+	{
+		LOG_WARNING("Could not unload resource [type = '%s'], [id = '%d']", Resources::ToString(type), id);
 	}
 
 	return isSuccess;

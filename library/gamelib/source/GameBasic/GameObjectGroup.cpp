@@ -1,8 +1,8 @@
 #include "stdafx_gamelib.h"
 
-#include "GameObject.h"
-#include "GameObjectGroup.h"
-#include "GameObjectManager.h"
+#include "GameBasic/GameObject.h"
+#include "GameBasic/GameObjectGroup.h"
+#include "GameBasic/GameObjectManager.h"
 #include "LogMessageManager.h"
 
 GameObjectGroup::~GameObjectGroup()
@@ -21,7 +21,7 @@ GameObjectGroup::~GameObjectGroup()
 
 	for (auto object : objects)
 	{
-		GameObjectManager::Instance()->DeleteGameObject(object);
+		GameObjectManager::Instance()->Delete(object);
 	}
 }
 

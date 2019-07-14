@@ -1,6 +1,6 @@
 #include "stdafx_gamelib.h"
 
-#include "ImageResource.h"
+#include "GameResource/ImageResource.h"
 
 bool ImageResource::LoadFrom(const string& filename)
 {

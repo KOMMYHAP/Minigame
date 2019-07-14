@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 
 namespace Resources
 {
@@ -17,34 +16,33 @@ namespace Resources
 	enum class Id
 	{
 		// image resources:
-		// ...
-
-		IMAGE_COUNT,
+		BEER,
+		HEART,
+		BOY,
+		GIRL,
+		SNOWFLAKE,
+		IMAGE_LAST,
 
 		// video resources:
-		// ...
+		CUTSCENE,
+		BACKGROUND,
+		VIDEO_LAST,
 
-		VIDEO_COUNT,
-		
 		// font resources:
-		// ...
-
-		FONT_COUNT,
+		DEFAULT_FONT,
+		FONT_LAST,
 		
 		// music resources:
-		// ...
-
-		MUSIC_COUNT,
+		DEFAULT_MUSIC,
+		MUSIC_LAST,
 		
 		// sound resources:
-		// ...
-
-		SOUND_COUNT,
+		SOUND_LAST,
 	};
 
 	constexpr const string & ToString(Type type)
 	{
-		constexpr std::array<string, Type::COUNT> strings {
+		constexpr array<string, Type::COUNT> strings {
 			"Image", "Video", "Font","Music", "Sound"
 		};
 		return strings[static_cast<size_t>(type)];

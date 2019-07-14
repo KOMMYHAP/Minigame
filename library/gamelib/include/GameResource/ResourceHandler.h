@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ResourcesID.h"
+#include "GameResource/ResourcesID.h"
 #include "Singleton.h"
 
 class BasicResource;
@@ -15,6 +15,7 @@ class ResourceHandler : public Singleton<ResourceHandler>
 {
 public:
 	bool Load(Resources::Type type, Resources::Id id, const string & filename);
+	bool Unload(Resources::Type type, Resources::Id id);
 	
 	ImageResource * GetImage(Resources::Id id) const;
 	VideoResource * GetVideo(Resources::Id id) const;

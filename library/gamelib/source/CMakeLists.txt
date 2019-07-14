@@ -1,11 +1,15 @@
 add_sources(
-	GameObject.cpp
-	GameObjectManager.cpp
-	GameObjectGroup.cpp
-	
 	InputController.cpp
-	
-	ResourceHandler.cpp
-	ImageResource.cpp
-	VideoResource.cpp
+)
+
+add_sources(
+	GameBasic/GameObject.cpp
+	GameBasic/GameObjectManager.cpp
+	GameBasic/GameObjectGroup.cpp
+)
+
+add_sources(
+	GameResource/ResourceHandler.cpp
+	GameResource/ImageResource.cpp
+	GameResource/VideoResource.cpp
 )

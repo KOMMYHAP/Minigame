@@ -1,7 +1,7 @@
 #include "stdafx_gamelib.h"
 
-#include "GameObjectManager.h"
-#include "GameObject.h"
+#include "GameBasic/GameObject.h"
+#include "GameBasic/GameObjectManager.h"
 #include "LogMessageManager.h"
 
 GameObjectManager::~GameObjectManager()
@@ -13,13 +13,13 @@ GameObjectManager::~GameObjectManager()
 	}
 }
 
-GameObject* GameObjectManager::CreateGameObject(const string& name, GameObject * parent)
+GameObject* GameObjectManager::Create(const string& name, GameObject * parent)
 {
 	++m_objectsNumber;
 	return new GameObject(name, parent);
 }
 
-void GameObjectManager::DeleteGameObject(GameObject * object)
+void GameObjectManager::Delete(GameObject * object)
 {
 	if (object)
 	{

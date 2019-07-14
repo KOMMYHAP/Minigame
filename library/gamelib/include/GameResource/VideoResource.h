@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BasicResource.h"
+#include "GameResource/BasicResource.h"
 
 class VideoResource : public BasicResource
 {
