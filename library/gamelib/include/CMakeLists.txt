@@ -3,9 +3,11 @@ add_sources(
 	GameObject.h
 	GameObjectManager.h
 	GameObjectGroup.h
-	GameObjectGeometry.h
 	
 	InputController.h
+	
+	ResourceHandler.h
+	ResourcesID.h
 	
 	BasicResource.h
 	ImageResource.h

@@ -1,11 +1,10 @@
-#include "basic_defs.h"
+#include "stdafx_gamelib.h"
 
 #include "LogMessageManager.h"
 
 #include "GameObject.h"
 #include "GameObjectGroup.h"
 #include "GameObjectManager.h"
-#include "GameObjectGeometry.h"
 
 GameObject::GameObject(GameObject * parent /* = nullptr */)
 	: GameObject("", parent)
@@ -14,7 +13,6 @@ GameObject::GameObject(GameObject * parent /* = nullptr */)
 
 GameObject::GameObject(const string& name, GameObject* parent /* = nullptr */)
 	: m_parent(parent)
-	, m_geometry(make_unique<GameObjectGeometry>())
 	, m_name(name)
 {
 	m_group = make_unique<GameObjectGroup>(this);

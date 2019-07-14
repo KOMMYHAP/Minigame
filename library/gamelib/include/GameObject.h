@@ -1,7 +1,6 @@
 #pragma once
 
 class GameObjectGroup;
-class GameObjectGeometry;
 
 class GameObject
 {
@@ -18,8 +17,8 @@ public:
 	GameObject * GetParentToChange() { return m_parent; }
 	GameObject const * GetParent() const { return m_parent; }
 	
-	GameObjectGeometry * GetGeometryToChange() { return m_geometry.get(); }
-	GameObjectGeometry const * GetGeometry() const { return m_geometry.get(); }
+	sf::Transform & GetGeometryToChange() { return m_geometry; }
+	sf::Transform const & GetGeometry() const { return m_geometry; }
 	
 	GameObjectGroup * GetGroupToChange() { return m_group.get(); }
 	GameObjectGroup const * GetGroup() const { return m_group.get(); }
@@ -30,7 +29,7 @@ public:
 private:
 	unique_ptr<GameObjectGroup>		m_group;
 	GameObject *					m_parent	{nullptr};
-	unique_ptr<GameObjectGeometry>	m_geometry;
+	sf::Transform					m_geometry;
 
 	string							m_name;
 };

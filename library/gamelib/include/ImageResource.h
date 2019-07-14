@@ -5,14 +5,13 @@
 class ImageResource : public BasicResource
 {
 public:
-	bool Load(const string& filename) override;
+	bool LoadFrom(const string& filename) override;
+	bool IsLoaded() const override { return m_isLoaded; }
 	void Unload() override;
 
-	bool IsLoaded() const override { return m_isLoaded; }
-
-	void Draw(sf::Texture& whereToDraw, unsigned x = 0, unsigned y = 0) override;
+	const sf::Image & GetImage() const { return m_image; }
 
 private:
-	sf::Texture		m_texture;
+	sf::Image		m_image;
 	bool			m_isLoaded {false};
 };

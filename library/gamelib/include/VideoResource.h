@@ -2,24 +2,22 @@
 
 #include "BasicResource.h"
 
-class VideoResource : BasicResource
+class VideoResource : public BasicResource
 {
 public:
 	~VideoResource() override;
 
-	bool Load(const string & filename) override;
+	bool LoadFrom(const string & filename) override;
 	bool IsLoaded() const override;
 	void Unload() override;
-	
-	void Draw(sf::Texture & whereToDraw, unsigned int x = 0, unsigned int y = 0);
-	
-	//void StopPlay();
-	//void PausePlay();
-	//void SetLooped(bool value);
-	
+
+	size_t GetFramesNumber() const;
+	const sf::Image & GetFrame(size_t number) const;
+		
 private:
+	vector<sf::Image>	m_images;
+	bool				m_isLoaded {false};
+
 	class Impl;
 	unique_ptr<Impl> 	m_impl;
-	
-	bool				m_isLoaded {false};
 };
