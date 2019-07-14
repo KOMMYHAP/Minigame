@@ -11,6 +11,7 @@
 #include <set>
 #include <list>
 #include <array>
+#include <functional>
 
 using std::weak_ptr;
 using std::shared_ptr;
@@ -33,3 +34,7 @@ using std::make_pair;
 
 using std::move;
 using std::forward;
+
+using std::function;
+
+using std::enable_shared_from_this;
