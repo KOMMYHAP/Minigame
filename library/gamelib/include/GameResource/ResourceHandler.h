@@ -14,6 +14,9 @@ class FontResource;
 class ResourceHandler : public Singleton<ResourceHandler>
 {
 public:
+	ResourceHandler();
+	~ResourceHandler() override;
+
 	bool Load(Resources::Type type, Resources::Id id, const string & filename);
 	bool Unload(Resources::Type type, Resources::Id id);
 	

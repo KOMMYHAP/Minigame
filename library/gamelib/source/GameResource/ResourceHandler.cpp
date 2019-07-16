@@ -1,11 +1,21 @@
 #include "stdafx_gamelib.h"
 
 #include "GameResource/ResourceHandler.h"
+
 #include "GameResource/ImageResource.h"
 #include "GameResource/VideoResource.h"
-#include <GameResource/FontResource.h>
+#include "GameResource/FontResource.h"
 
 #include "LogMessageManager.h"
+
+ResourceHandler::ResourceHandler()
+{
+}
+
+ResourceHandler::~ResourceHandler()
+{
+
+}
 
 bool ResourceHandler::Load(Resources::Type type, Resources::Id id, const string& filename)
 {
@@ -41,7 +51,7 @@ bool ResourceHandler::Load(Resources::Type type, Resources::Id id, const string&
 
 	if (!isSuccess)
 	{
-		LOG_WARNING("Could not load resource [type = '%s'], [id = '%d'], [filename = '%s']", Resources::ToString(type), id, filename);
+		LOG_WARNING("Could not load resource [type = '%s'], [id = '%d'], [filename = '%s']", Resources::ToString(type), static_cast<size_t>(id), filename);
 	}
 
 	return isSuccess;
@@ -71,7 +81,7 @@ bool ResourceHandler::Unload(Resources::Type type, Resources::Id id)
 	
 	if (!isSuccess)
 	{
-		LOG_WARNING("Could not unload resource [type = '%s'], [id = '%d']", Resources::ToString(type), id);
+		LOG_WARNING("Could not unload resource [type = '%s'], [id = '%d']", Resources::ToString(type), static_cast<size_t>(id));
 	}
 
 	return isSuccess;
@@ -91,6 +101,16 @@ VideoResource* ResourceHandler::GetVideo(Resources::Id id) const
 {
 	auto it = m_videoes.find(id);
 	if (it != m_videoes.end())
+	{
+		return it->second.get();
+	}
+	return nullptr;
+}
+
+FontResource* ResourceHandler::GetFont(Resources::Id id) const
+{
+	auto it = m_fonts.find(id);
+	if (it != m_fonts.end())
 	{
 		return it->second.get();
 	}

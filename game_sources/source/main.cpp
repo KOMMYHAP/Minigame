@@ -2,9 +2,20 @@
 
 #include "Application.h"
 
-int WinMain(int argc, char **argv)
+#include <Windows.h>
+
+int WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR szCmdLine, int iCmdShow)
 {
-	Application app(argc, argv);
+	char  szPath[MAX_PATH];
+	PSTR  lpFilename;
+
+	// Retrieve the full path for the current module.
+	if ( GetModuleFileName( NULL, szPath, sizeof szPath ) == 0 )
+		return -1;
+
+	string s (szPath);
+
+	Application app;
 	int exitCode = app.Run();
 
 	return exitCode;

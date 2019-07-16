@@ -7,18 +7,22 @@
 #include "GameStateMachine/Game.h"
 #include "GameBasic/GameObjectManager.h"
 
-Application::Application(int argc, char** argv)
+Application::Application()
 	: m_videoMode(800, 600)
 	, m_window(m_videoMode, "Snowfall", sf::Style::Close | sf::Style::Titlebar)
-	, m_game(make_unique<Game>())
+	, m_game(make_shared<Game>())
 {
 	m_window.setFramerateLimit(60);
-	
-	m_game->Initialize(shared_from_this());
+	m_game->Initialize();
+}
+
+Application::~Application()
+{
 }
 
 int Application::Run()
 {
+
 	sf::Clock clock;
 
 	while (m_window.isOpen())

@@ -3,6 +3,8 @@
 
 #include "GameBasic/GameObject.h"
 #include "GameBasic/GameObjectManager.h"
+#include "InputController.h"
+#include "GameBasic/GameUtils.h"
 
 namespace Entities
 {
@@ -45,18 +47,54 @@ namespace Entities
 			m_velocity *= 0.95f;
 		};
 
-		m_currentAction = m_actions[static_cast<size_t>(ActionTypes::IDLE)];
-
-
+		m_currentAction = m_actions[static_cast<size_t>(ActionTypes::IDLE)];	
 	}
 
 	Player::~Player()
 	{
-		if (m_object->)
+		if (!m_object->GetParent())
+		{
+			GameObjectManager::Instance()->Delete(m_object);
+		}
+	}
+
+	void Player::Initialize(GameObject* parent)
+	{
+		m_object = GameObjectManager::Instance()->Create("player", parent);
 	}
 
 	void Player::ProcessInput()
 	{
+		auto isPressed = [](InputKey key)
+		{
+			return InputController::Instance()->IsPressed(key);
+		};
 
+		auto action = ActionTypes::IDLE;
+
+		if (isPressed(InputKey::W) || isPressed(InputKey::ARROW_UP))
+		{
+			action = ActionTypes::UP;
+		}
+		else if (isPressed(InputKey::A) || isPressed(InputKey::ARROW_LEFT))
+		{
+			action = ActionTypes::LEFT;
+		}
+		else if (isPressed(InputKey::S) || isPressed(InputKey::ARROW_DOWN))
+		{
+			action = ActionTypes::DOWN;
+		}
+		else if (isPressed(InputKey::D) || isPressed(InputKey::ARROW_RIGHT))
+		{
+			action = ActionTypes::RIGHT;
+		}
+
+		m_currentAction = m_actions[static_cast<size_t>(action)];
+	}
+
+	void Player::Update(size_t dt)
+	{
+		auto ms = dt / 1000.0f;
+		GameUtils::MoveObject(m_object, m_velocity * ms);
 	}
 }

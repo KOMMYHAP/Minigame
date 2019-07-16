@@ -5,11 +5,15 @@
 class FontResource : public BasicResource
 {
 public:
+	FontResource();
+	~FontResource() override;
+
 	bool LoadFrom(const string& filename) override;
-	bool IsLoaded() const override { return m_isLoaded; }
+	bool IsLoaded() const override;
 	void Unload() override;
 
-	const sf::Font & GetFont() const { return m_image; }
+	const sf::Font& GetFont() const;
+
 private:
 	sf::Font		m_font;
 	bool			m_isLoaded {false};

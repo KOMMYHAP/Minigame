@@ -2,7 +2,6 @@
 
 #include "GameStateMachine/GameScenesID.h"
 
-class Application;
 class GameScene;
 class GameObject;
 
@@ -11,7 +10,7 @@ class Game : public enable_shared_from_this<Game>
 public:
 	~Game();
 
-	void Initialize(shared_ptr<Application> app);
+	void Initialize();
 
 	void ProcessInput();
 	void UpdateScene(size_t dt);
@@ -28,7 +27,6 @@ private:
 	void CheckAndSetNextScene();
 	shared_ptr<GameScene> GetNextScene() const;
 
-	weak_ptr<Application>							m_application;
 	bool											m_isClosed {false};
 
 	map<GameScenes::Id, shared_ptr<GameScene>>		m_scenes;

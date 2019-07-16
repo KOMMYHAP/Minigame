@@ -5,11 +5,14 @@
 class ImageResource : public BasicResource
 {
 public:
+	ImageResource();
+	~ImageResource();
+
 	bool LoadFrom(const string& filename) override;
-	bool IsLoaded() const override { return m_isLoaded; }
+	bool IsLoaded() const override;
 	void Unload() override;
 
-	const sf::Image & GetImage() const { return m_image; }
+	const sf::Image& GetImage() const;
 
 private:
 	sf::Image		m_image;

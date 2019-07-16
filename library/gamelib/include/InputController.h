@@ -19,6 +19,8 @@ public:
 	void ProcessInput(sf::Window & window);
 	
 	bool IsPressed(InputKey key) const { return m_keys.at(key); }
+	bool IsReleased(InputKey key) const { return !IsPressed(key); }
+
 	bool IsTryToShutdown() const { return m_isTryToShutdown; }
 
 private:

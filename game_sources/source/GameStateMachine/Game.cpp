@@ -6,7 +6,6 @@
 #include "GameStateMachine/Game.h"
 #include "GameStateMachine/MainMenu.h"
 
-#include "Application.h"
 #include "InputController.h"
 
 Game::~Game()
@@ -14,11 +13,9 @@ Game::~Game()
 	GameObjectManager::Instance()->Delete(m_root);
 }
 
-void Game::Initialize(shared_ptr<Application> app)
+void Game::Initialize()
 {
 	m_root = GameObjectManager::Instance()->Create("game_root", nullptr);
-
-	m_application = app;
 
 	auto mainMenuScene = make_shared<MainMenuScene>();
 	mainMenuScene->Initialize(shared_from_this());
@@ -54,7 +51,7 @@ void Game::Draw(sf::RenderTarget & target)
 {
 	if (auto scene = GetCurrentScene())
 	{
-		target.draw(*scene, m_root->GetGeometry());
+		target.draw(*scene.get(), m_root->GetGeometry());
 	}
 }
 

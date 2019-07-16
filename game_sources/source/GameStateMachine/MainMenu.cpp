@@ -6,31 +6,52 @@
 #include "GameStateMachine/Game.h"
 #include "GameStateMachine/MainMenu.h"
 
-#include "GameResource/ResourceHandler.h"
-#include "GameResource/ImageResource.h"
+#include "Entities/Player.h"
+#include "GameGraphics/Player.h"
+
+MainMenuScene::MainMenuScene()
+{
+	m_object = GameObjectManager::Instance()->Create("mainMenuScene", nullptr);
+}
 
 MainMenuScene::~MainMenuScene()
 {
+	if (!m_object->GetParent())
+	{
+		GameObjectManager::Instance()->Delete(m_object);
+	}
 }
 
 void MainMenuScene::Initialize(shared_ptr<Game> game)
 {
 	m_game = game;
-	m_parent = game->GetRoot();
+	m_object->SetParent(game->GetRoot());
+
+	auto player = make_unique<Entities::Player>();
+	auto gPlayer = make_unique<Graphics::Player>();
+
+	player->Initialize(m_object->GetParentToChange());
+	gPlayer->Initialize(player->GetGameObject());
+
+	m_entities.emplace_back(move(player));
+	m_graphicsEntities.emplace_back(move(gPlayer));
+
 }
 
 void MainMenuScene::Load()
 {
-	ResourceHandler::Instance()->Load(Resources::Type::FONT, Resources::Id::DEFAULT_FONT, "Resources/16105.ttf");
-	ResourceHandler::Instance()->Load(Resources::Type::IMAGE, Resources::Id::SNOWFLAKE, "Resources/snowflake.png");
-	ResourceHandler::Instance()->Load(Resources::Type::IMAGE, Resources::Id::BEER, "Resources/beer.png");
+	for (auto && entity : m_graphicsEntities)
+	{
+		entity->Load();
+	}
 }
 
 void MainMenuScene::Unload()
 {
-	ResourceHandler::Instance()->Unload(Resources::Type::FONT, Resources::Id::DEFAULT_FONT);
-	ResourceHandler::Instance()->Unload(Resources::Type::IMAGE, Resources::Id::SNOWFLAKE);
-	ResourceHandler::Instance()->Unload(Resources::Type::IMAGE, Resources::Id::BEER);
+	for (auto && entity : m_graphicsEntities)
+	{
+		entity->Unload();
+	}
 }
 
 void MainMenuScene::Update(size_t dt)
@@ -41,15 +62,36 @@ void MainMenuScene::Update(size_t dt)
 		return;
 	}
 
-
+	for (auto && entity : m_entities)
+	{
+		entity->Update(dt);
+	}
 }
 
 void MainMenuScene::ProcessInput()
 {
+	for (auto && entity : m_entities)
+	{
+		entity->ProcessInput();
+	}
+}
 
+bool MainMenuScene::IsReady()
+{
+	for (auto && entity : m_graphicsEntities)
+	{
+		if (!entity->IsReady())
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 void MainMenuScene::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	
+	for (auto && entity : m_graphicsEntities)
+	{
+		target.draw(*entity, m_object->GetGeometry());
+	}
 }

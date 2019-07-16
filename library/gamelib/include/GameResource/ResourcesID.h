@@ -40,9 +40,9 @@ namespace Resources
 		SOUND_LAST,
 	};
 
-	constexpr const string & ToString(Type type)
+	inline const string & ToString(Type type)
 	{
-		constexpr array<string, Type::COUNT> strings {
+		static const array<string, static_cast<size_t>(Type::COUNT)> strings {
 			"Image", "Video", "Font","Music", "Sound"
 		};
 		return strings[static_cast<size_t>(type)];

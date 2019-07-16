@@ -5,6 +5,7 @@
 class VideoResource : public BasicResource
 {
 public:
+	VideoResource();
 	~VideoResource() override;
 
 	bool LoadFrom(const string & filename) override;

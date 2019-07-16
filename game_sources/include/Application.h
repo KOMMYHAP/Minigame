@@ -7,7 +7,8 @@ class Game;
 class Application : public enable_shared_from_this<Application>
 {
 public:
-	Application(int argc, char ** argv);
+	Application();
+	~Application();
 
 	int Run();
 
@@ -22,5 +23,5 @@ private:
 
 	SingletonManager		m_singletonSequence;
 
-	unique_ptr<Game>		m_game;
+	shared_ptr<Game>		m_game;
 };

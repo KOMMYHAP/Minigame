@@ -6,6 +6,7 @@ add_sources(
 	GameBasic/GameObject.cpp
 	GameBasic/GameObjectManager.cpp
 	GameBasic/GameObjectGroup.cpp
+	GameBasic/GameUtils.cpp
 )
 
 add_sources(

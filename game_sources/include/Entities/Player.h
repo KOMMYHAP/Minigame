@@ -11,6 +11,8 @@ public:
 	Player();
 	~Player();
 
+	void Initialize(GameObject * parent);
+
 	void ProcessInput() override;
 	void Update(size_t dt) override;
 
@@ -30,7 +32,8 @@ private:
 		COUNT
 	};
 
-	array<Action, ActionTypes::COUNT>	m_actions;
+	array<Action, static_cast<size_t>(ActionTypes::COUNT)>	
+										m_actions;
 	Action								m_currentAction;
 	sf::Vector2f						m_velocity;
 
