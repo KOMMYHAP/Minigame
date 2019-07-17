@@ -1,22 +1,24 @@
 #include "stdafx_game.h"
 
-#include "Application.h"
-
-#include <Windows.h>
-
-int WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR szCmdLine, int iCmdShow)
+int main()
 {
-	char  szPath[MAX_PATH];
-	PSTR  lpFilename;
+    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
 
-	// Retrieve the full path for the current module.
-	if ( GetModuleFileName( NULL, szPath, sizeof szPath ) == 0 )
-		return -1;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
-	string s (szPath);
+        window.clear();
+        window.draw(shape);
+        window.display();
+    }
 
-	Application app;
-	int exitCode = app.Run();
-
-	return exitCode;
+    return 0;
 }
