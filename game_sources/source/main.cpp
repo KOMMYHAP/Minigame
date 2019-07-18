@@ -2,7 +2,7 @@
 #include "InputController.h"
 #include "ResourceHandler.h"
 
-#include "PlayerField.h"
+#include "PlayField.h"
 
 int main(int argc, char **argv)
 {
@@ -13,12 +13,11 @@ int main(int argc, char **argv)
 	window->create(sf::VideoMode(800, 600), "Snowflake", sf::Style::Titlebar | sf::Style::Close);
 	window->setFramerateLimit(60);
 
-	auto playerField = make_shared<PlayerField>();
-	playerField->Initialize(inputController, resourceHandler, window);
+	auto playField = make_shared<PlayField>();
+	playField->Initialize(inputController, resourceHandler, window);
 
 	sf::Clock clock;
-	const auto timePerFrame = 1000.f / 30.0f;
-
+	const auto timePerFrame = 1000.f / 60.0f;
     while (window->isOpen())
     {
         inputController->ProcessInput(window);
@@ -29,18 +28,18 @@ int main(int argc, char **argv)
 			break;
 		}
 
-		auto dt = clock.getElapsedTime().asSeconds();
+		playField->ProcessInput();
 
-		playerField->ProcessInput();
+		float dt = clock.getElapsedTime().asMilliseconds();
 
 		do
 		{
-			playerField->Update(dt);
+			playField->Update(dt);
 			dt -= timePerFrame;
 		} while (dt >= timePerFrame);
 
         window->clear();
-        window->draw(*playerField);
+        window->draw(*playField);
         window->display();
 
 		clock.restart();

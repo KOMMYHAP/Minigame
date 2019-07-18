@@ -1,7 +1,7 @@
 #include "stdafx_game.h"
 
 #include "Player.h"
-#include "PlayerField.h"
+#include "PlayField.h"
 
 #include "ResourceHandler.h"
 #include "InputController.h"
@@ -13,16 +13,16 @@ Player::Player()
 {
 }
 
-void Player::Initialize(shared_ptr<PlayerField> playerField)
+void Player::Initialize(shared_ptr<PlayField> playField)
 {
-	m_field = playerField;
+	m_field = playField;
 	assert(LoadAll());
-	m_sprite = GetPlayerField()->GetResources()->GetImage(Images::GIRL);
+	m_sprite = GetPlayField()->GetResources()->GetImage(Images::GIRL);
 }
 
 void Player::ProcessInput()
 {
-	auto input = GetPlayerField()->GetController();
+	auto input = GetPlayField()->GetController();
 	
 	if (input->IsPressed(sf::Keyboard::W) || input->IsPressed(sf::Keyboard::Up) || input->IsPressed(sf::Keyboard::Space))
 	{
@@ -44,25 +44,29 @@ void Player::Update(float dt)
 {	
 	auto pos = getPosition() + m_velocity;
 
-	const auto spriteRect = GetSpriteSize();
-	const auto bottomRightCorner = pos + sf::Vector2f(spriteRect.width, spriteRect.height);
+	auto && playerRect = GetBBox();
+	auto && playfieldRect = GetPlayField()->GetBBox();
+	
+	auto p1 = sf::Vector2f(playerRect.left, playerRect.top);
+	auto p2 = sf::Vector2f(playerRect.width + p1.x - 0.01f, playerRect.height + p1.y - 0.01f);
 
-	if (GetPlayerField()->IsInBorders(pos) && GetPlayerField()->IsInBorders(bottomRightCorner))
+	if (playfieldRect.contains(p1) && playfieldRect.contains(p2))
 	{
 		setPosition(pos);
 	}
 	else 
 	{
-		MoveToBorder(pos);
+		auto && correctedPos = GetPlayField()->MoveToHorizontalBorder(playerRect);
+		setPosition(correctedPos);
 	}
 
 	UpdateMoving();
 	UpdateJump();
 }
 
-sf::FloatRect Player::GetSpriteSize() const
+sf::FloatRect Player::GetBBox() const
 {
-	return getTransform().transformRect(m_sprite.getLocalBounds());
+	return getTransform().transformRect(m_sprite.getGlobalBounds());
 }
 
 void Player::CreateJump()
@@ -110,27 +114,9 @@ void Player::UpdateMoving()
 	m_velocity.x *= 0.5f;
 }
 
-void Player::MoveToBorder(const sf::Vector2f& invalidPos)
-{
-	auto && border = GetPlayerField()->GetBorder();
-
-	auto spriteRect = GetSpriteSize();
-	sf::Vector2f validPos = invalidPos;
-	if (invalidPos.x <= border.left)
-	{
-		validPos.x = border.left;
-	}
-	else if (invalidPos.x + spriteRect.width >= border.left + border.width)
-	{
-		validPos.x = border.left + border.width - GetSpriteSize().width;
-	}
-
-	setPosition(validPos);
-}
-
 bool Player::LoadAll()
 {
-	auto resources = GetPlayerField()->GetResources();
+	auto resources = GetPlayField()->GetResources();
 
 	bool success = true;
 

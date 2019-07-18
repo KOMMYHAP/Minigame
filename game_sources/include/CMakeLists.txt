@@ -3,6 +3,7 @@ add_sources(
 	InputController.h
 	ResourceHandler.h
 	Entity.h
+	Snowflake.h
 	Player.h
-	PlayerField.h
+	PlayField.h
 )

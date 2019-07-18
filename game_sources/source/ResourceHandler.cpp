@@ -6,22 +6,20 @@
 ResourceHandler::ResourceHandler()
 {
 	sf::RenderTexture defaultTexture;
-
-	sf::RectangleShape strip({100, 5});
-	strip.rotate(-45);
-	strip.setFillColor(sf::Color::Yellow);	
-
-	defaultTexture.create(100, 100);
+	assert(defaultTexture.create(50, 50));
 	defaultTexture.setRepeated(true);
 
-	sf::RectangleShape quadrect({100, 100});
+	sf::RectangleShape strip({1, 150});
+	strip.rotate(45);
+	strip.setFillColor(sf::Color::Yellow);	
+
+	sf::RectangleShape quadrect({50, 50});
 	quadrect.setFillColor(sf::Color::Black);
 
 	defaultTexture.draw(quadrect);
-
-	for (int i = 0; i < 10; ++i)
+	for (float x = -50.0f; x <= 100; x += 25)
 	{
-		strip.setPosition(10.f * i, 0);
+		strip.setPosition(x, 0.0f);
 		defaultTexture.draw(strip);
 	}
 
@@ -30,7 +28,10 @@ ResourceHandler::ResourceHandler()
 
 bool ResourceHandler::LoadImage(Images::Id id, const string& path)
 {
-	assert(m_images.find(id) == m_images.end());
+	if (m_images.find(id) != m_images.end())
+	{
+		return true;
+	}
 
 	auto image = make_unique<sf::Texture>();
 	bool success = image->loadFromFile(path);
@@ -54,6 +55,7 @@ sf::Sprite ResourceHandler::GetImage(Images::Id id) const
 	}
 	else
 	{
+		assert(false);
 		auto && texturePtr = m_images.at(Images::UNKNOWN);
 		sprite.setTexture(*texturePtr);
 	}

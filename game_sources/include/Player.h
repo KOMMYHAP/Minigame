@@ -2,21 +2,21 @@
 
 #include "Entity.h"
 
-class PlayerField;
+class PlayField;
 
 class Player : public Entity
 {
 public:
 	Player();
 
-	void Initialize(shared_ptr<PlayerField> playerField);
+	void Initialize(shared_ptr<PlayField> playField);
 
 	void ProcessInput() override;
 	void Update(float dt) override;
 
-	sf::FloatRect GetSpriteSize() const;
+	sf::FloatRect GetBBox() const;
 
-	shared_ptr<PlayerField> GetPlayerField() const { return m_field.lock(); }
+	shared_ptr<PlayField> GetPlayField() const { return m_field.lock(); }
 
 private:
 	struct JumpHelper
@@ -35,7 +35,6 @@ private:
 	void CreateJump();
 	void UpdateJump();
 	void UpdateMoving();
-	void MoveToBorder(const sf::Vector2f& invalidPos);
 
 	bool LoadAll();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -47,5 +46,5 @@ private:
 
 	sf::Sprite							m_sprite;
 
-	weak_ptr<PlayerField>				m_field;
+	weak_ptr<PlayField>				m_field;
 };

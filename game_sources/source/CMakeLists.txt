@@ -3,6 +3,7 @@ add_sources(
 	InputController.cpp
 	ResourceHandler.cpp
 	Player.cpp
-	PlayerField.cpp
+	Snowflake.cpp
+	PlayField.cpp
 	Entity.cpp
 )

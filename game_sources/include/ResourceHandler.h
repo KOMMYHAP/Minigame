@@ -6,6 +6,7 @@ namespace Images
 	{
 		UNKNOWN,
 		GIRL,
+		SNOWFLAKE,
 		COUNT	
 	};
 }
