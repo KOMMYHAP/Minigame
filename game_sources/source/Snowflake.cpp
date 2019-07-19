@@ -5,7 +5,6 @@
 #include "PlayField.h"
 #include "ResourceHandler.h"
 #include "BaseUtils.h"
-#include <ppltasks.h>
 
 Snowflake::Snowflake()
 {
@@ -19,7 +18,10 @@ void Snowflake::Initialize(shared_ptr<PlayField> playfield)
 
 	bool success = resources->LoadImage(Images::SNOWFLAKE, "Resources/snowflake.png");
 	assert(success);
-	m_sprite = resources->GetImage(Images::SNOWFLAKE);
+	if (auto ptr = resources->GetTexture(Images::SNOWFLAKE))
+	{
+		m_sprite.setTexture(*ptr);	
+	}
 	
 	m_velocity = {m_jitter.maxVelocity, m_velocityY};
 
@@ -30,7 +32,7 @@ void Snowflake::Initialize(shared_ptr<PlayField> playfield)
 	m_velocity.x  *= toLeft ? -1.0f : 1.0f;
 }
 
-void Snowflake::Update(float dt)
+void Snowflake::Update(size_t dt)
 {
 	auto && playfieldBbox = GetPlayField()->GetBBox();
 	
@@ -92,7 +94,7 @@ void SnowflakeHandler::ProcessInput()
 
 }
 
-void SnowflakeHandler::Update(float dt)
+void SnowflakeHandler::Update(size_t dt)
 {
 	TryToCreateSnowflake();
 

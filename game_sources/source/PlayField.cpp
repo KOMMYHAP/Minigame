@@ -11,13 +11,31 @@ PlayField::PlayField()
 {
 }
 
+PlayField::~PlayField()
+{
+	if (auto ptr = GetResources()->GetMusic(Music::PLAYFIELD))
+	{
+		ptr->stop();
+	}
+}
+
 void PlayField::Initialize(shared_ptr<InputController> controller, shared_ptr<ResourceHandler> resources, shared_ptr<sf::Window> window)
 {
 	m_input = controller;
 	m_resources = resources;
 
-	m_sprite = resources->GetImage(Images::UNKNOWN);
-	m_sprite.setTextureRect({0, 0, int(window->getSize().x), int(window->getSize().y)});
+	resources->LoadMusic(Music::PLAYFIELD, "Resources/test.ogg");
+	if (auto ptr = resources->GetMusic(Music::PLAYFIELD))
+	{
+		ptr->setLoop(true);
+		ptr->play();
+	}
+
+	if (auto ptr = resources->GetTexture(Images::UNKNOWN))
+	{
+		m_sprite = sf::Sprite(*ptr);
+		m_sprite.setTextureRect({0, 0, int(window->getSize().x), int(window->getSize().y)});
+	}
 
 	auto && bbox = GetBBox();
 
@@ -25,7 +43,6 @@ void PlayField::Initialize(shared_ptr<InputController> controller, shared_ptr<Re
 	{
 		player->Initialize(shared_from_this());
 		
-		player->setScale(0.20f, 0.20f);
 		player->setPosition(bbox.left + bbox.width / 2.f - player->GetBBox().width / 2.f, bbox.top + bbox.height - player->GetBBox().height);
 	}
 
@@ -47,7 +64,7 @@ void PlayField::ProcessInput()
 	}
 }
 
-void PlayField::Update(float dt)
+void PlayField::Update(size_t dt)
 {
 	for (auto && entity : m_entities)
 	{

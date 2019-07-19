@@ -12,7 +12,7 @@ public:
 	void Initialize(shared_ptr<PlayField> playField);
 
 	void ProcessInput() override;
-	void Update(float dt) override;
+	void Update(size_t dt) override;
 
 	sf::FloatRect GetBBox() const;
 

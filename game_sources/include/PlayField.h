@@ -9,11 +9,12 @@ class PlayField : public Entity, public enable_shared_from_this<PlayField>
 {
 public:
 	PlayField();
+	~PlayField();
 
 	void Initialize(shared_ptr<InputController> controller, shared_ptr<ResourceHandler> resources, shared_ptr<sf::Window> window);
 
 	void ProcessInput() override;
-	void Update(float dt) override;
+	void Update(size_t dt) override;
 	
 	// bool IsInBorders(const sf::Vector2f & position) const;
 	sf::FloatRect GetBBox() const;

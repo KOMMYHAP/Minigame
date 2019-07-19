@@ -17,7 +17,11 @@ void Player::Initialize(shared_ptr<PlayField> playField)
 {
 	m_field = playField;
 	assert(LoadAll());
-	m_sprite = GetPlayField()->GetResources()->GetImage(Images::GIRL);
+	if (auto ptr = GetPlayField()->GetResources()->GetTexture(Images::GIRL))
+	{
+		m_sprite.setTexture(*ptr);
+		m_sprite.setScale(0.20f, 0.20f);
+	}
 }
 
 void Player::ProcessInput()
@@ -40,7 +44,7 @@ void Player::ProcessInput()
 	
 }
 
-void Player::Update(float dt)
+void Player::Update(size_t dt)
 {	
 	auto && playfieldRect = GetPlayField()->GetBBox();
 

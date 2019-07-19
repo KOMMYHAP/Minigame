@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	playField->Initialize(inputController, resourceHandler, window);
 
 	sf::Clock clock;
-	const auto timePerFrame = 1000.f / 60.0f;
+	const auto timePerFrame = static_cast<int>(std::ceil(1000.0f / 60.0f));
     while (window->isOpen())
     {
         inputController->ProcessInput(window);
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
 		playField->ProcessInput();
 
-		float dt = clock.getElapsedTime().asMilliseconds();
+		int dt = clock.getElapsedTime().asMilliseconds();
 
 		do
 		{
