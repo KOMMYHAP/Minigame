@@ -23,14 +23,14 @@ private:
 	// x offset helper
 	struct Jitter
 	{
-		const float maxVelocity		{1.5f};		// velocity by the X axis
-		const float maxOffset		{999.f};	// maximum offset by X axid
+		const float maxVelocity		{0.1f};		// velocity by the X axis
+		const float maxOffset		{25.f};	// maximum offset by X axid
 		float		offset			{0.0f};		// current offset by X axid, changed by update
 
 	} m_jitter;
 
-	float						m_velocityY {2.0f};
-	const float					m_angularVelocity {0.6};
+	float						m_velocityY {1.5f};
+	const float					m_angularVelocity {0.5};
 
 	sf::Vector2f				m_velocity;
 

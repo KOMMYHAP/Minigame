@@ -81,7 +81,7 @@ sf::Vector2f PlayField::MoveToHorizontalBorder(const sf::FloatRect& playerRect) 
 void PlayField::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(getTransform());
-	// target.draw(m_sprite, states);
+	target.draw(m_sprite, states);
 	
 	for (auto && entity : m_entities)
 	{

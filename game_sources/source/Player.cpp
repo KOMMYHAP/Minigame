@@ -42,22 +42,23 @@ void Player::ProcessInput()
 
 void Player::Update(float dt)
 {	
-	auto pos = getPosition() + m_velocity;
-
-	auto && playerRect = GetBBox();
 	auto && playfieldRect = GetPlayField()->GetBBox();
-	
-	auto p1 = sf::Vector2f(playerRect.left, playerRect.top);
-	auto p2 = sf::Vector2f(playerRect.width + p1.x - 0.01f, playerRect.height + p1.y - 0.01f);
 
-	if (playfieldRect.contains(p1) && playfieldRect.contains(p2))
+	auto nextBbox = GetBBox();
+	nextBbox.left += m_velocity.x;
+	nextBbox.top += m_velocity.y;
+
+	if (nextBbox.left <= playfieldRect.left)
 	{
-		setPosition(pos);
+		setPosition(playfieldRect.left, nextBbox.top);
 	}
-	else 
+	else if (nextBbox.left + nextBbox.width >= playfieldRect.left + playfieldRect.width)
+	{	
+		setPosition(playfieldRect.left + playfieldRect.width - nextBbox.width, nextBbox.top);
+	}
+	else
 	{
-		auto && correctedPos = GetPlayField()->MoveToHorizontalBorder(playerRect);
-		setPosition(correctedPos);
+		move(m_velocity);	
 	}
 
 	UpdateMoving();

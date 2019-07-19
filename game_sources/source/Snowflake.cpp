@@ -32,19 +32,18 @@ void Snowflake::Initialize(shared_ptr<PlayField> playfield)
 
 void Snowflake::Update(float dt)
 {
-	move(m_velocity);
-
 	auto && playfieldBbox = GetPlayField()->GetBBox();
-	auto && thisBbox = GetBBox();
 	
-	if (thisBbox.left <= playfieldBbox.left)
+	auto nextBbox = GetBBox();
+	nextBbox.left += m_velocity.x;
+	nextBbox.top += m_velocity.y;
+
+	if (nextBbox.left <= playfieldBbox.left)
 	{
-		// setPosition(playfieldBbox.left + thisBbox.width / 4.0f, thisBbox.top);
 		m_velocity.x = std::abs(m_velocity.x);
 	}
-	else if (thisBbox.left + thisBbox.width >= playfieldBbox.left + playfieldBbox.width)
+	else if (nextBbox.left + nextBbox.width >= playfieldBbox.left + playfieldBbox.width)
 	{
-		// setPosition(playfieldBbox.left + playfieldBbox.width - thisBbox.width * 5.0f / 4.0f, thisBbox.top);
 		m_velocity.x = -std::abs(m_velocity.x);
 	}
 	else 
@@ -56,13 +55,18 @@ void Snowflake::Update(float dt)
 		
 		m_jitter.offset += m_velocity.x;
 	}
-	
-	m_sprite.rotate(m_angularVelocity);
+
+	move(m_velocity);
+	rotate(m_angularVelocity);
 }
 
 sf::FloatRect Snowflake::GetBBox() const
 {
-	return getTransform().transformRect(m_sprite.getLocalBounds());
+	// sf::FloatRect bbox = {
+	// 	getPosition().x, getPosition().y,
+	// 	m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().
+	// };
+	return getTransform().transformRect(m_sprite.getGlobalBounds());
 }
 
 void Snowflake::draw(sf::RenderTarget& target, sf::RenderStates states) const
