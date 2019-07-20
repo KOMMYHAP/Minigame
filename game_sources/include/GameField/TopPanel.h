@@ -18,6 +18,7 @@ public:
 	void Subscribe(shared_ptr<GameListener> listener) { m_listeners.emplace_back(std::move(listener)); }
 
 	shared_ptr<PlayField> GetPlayfield() const { return m_playfield.lock(); };
+	sf::FloatRect GetBBox() const override;
 
 private:
 	void CallEvent(GameEvent event, shared_ptr<Entity> sender);
@@ -40,7 +41,8 @@ public:
 
 	void OnMissingSnowlake();
 	void OnTouchingHealthPack();
-	sf::FloatRect GetBbox() const;
+
+	sf::FloatRect GetBBox() const override;
 
 	int GetLifes() const { return m_lifes; }
 
@@ -48,7 +50,6 @@ private:
 	void UpdateText() const;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
 
 	const char *			m_format	{"%03d"};
 	const int				m_maxLifes	{999};
@@ -73,16 +74,16 @@ public:
 	size_t GeNextScoresNumber() const	{ return m_nextNumber; }
 	size_t GetCurrentCoef()		const	{ return m_numberInARow; }
 
-	sf::FloatRect GetBbox() const;
+	sf::FloatRect GetBBox() const override;
 
 private:
 	void UpdateText() const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	
-	size_t const				m_minBonus		{3};
+	size_t const				m_minBonus		{5};
 	size_t const				m_maxCoef		{999};
 	size_t const				m_maxNumber		{999999999ULL};
-	size_t const				m_scoresForWin	{   999999ULL};
+	size_t const				m_scoresForWin	{999999999ULL};
 	const char *				m_format		{"Scores: %08llu \nMultiplier:  %03llu "};
 
 	size_t						m_nextNumber	{0};

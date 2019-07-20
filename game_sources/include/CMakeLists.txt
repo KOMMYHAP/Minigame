@@ -18,6 +18,7 @@ add_sources(
 	GameField/PlayField.h
 	GameField/GameLogic.h
 	GameField/HealthPack.h
+	GameField/ItemsHandler.h
 )
 
 add_sources(

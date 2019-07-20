@@ -23,7 +23,7 @@ void TopPanel::Initialize(shared_ptr<PlayField> playfield)
 	{
 		m_scores->Initialize(playfield->GetResources());
 
-		auto bbox = m_scores->GetBbox();
+		auto bbox = m_scores->GetBBox();
 
 		sf::Vector2f pos = { 
 			playfieldBbox.left + playfieldBbox.width - bbox.width - 20.0f, 
@@ -82,6 +82,11 @@ void TopPanel::Call(GameEvent event, shared_ptr<Entity> sender)
 	}
 }
 
+sf::FloatRect TopPanel::GetBBox() const
+{
+	return {};
+}
+
 void TopPanel::CallEvent(GameEvent event, shared_ptr<Entity> sender)
 {
 	for (auto && listener : m_listeners)
@@ -138,7 +143,7 @@ void HealthPanel::OnTouchingHealthPack()
 	m_lifes = std::min(m_maxLifes, m_lifes + 1);
 }
 
-sf::FloatRect HealthPanel::GetBbox() const
+sf::FloatRect HealthPanel::GetBBox() const
 {
 	return getTransform().transformRect(m_sprite.getGlobalBounds());
 }
@@ -204,7 +209,7 @@ void ScorePanel::OnTouch()
 	m_number = std::min(m_number, m_maxNumber);
 }
 
-sf::FloatRect ScorePanel::GetBbox() const
+sf::FloatRect ScorePanel::GetBBox() const
 {
 	return getTransform().transformRect(m_text->getGlobalBounds());
 }

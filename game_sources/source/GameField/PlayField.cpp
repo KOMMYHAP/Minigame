@@ -10,6 +10,7 @@
 
 #include "LogMessageManager.h"
 #include "GameField/HealthPack.h"
+#include "GameField/ItemsHandler.h"
 
 PlayField::PlayField()
 	: m_random(make_shared<std::mt19937>())
@@ -96,12 +97,13 @@ void PlayField::OnStartScene()
 		m_entities.emplace_back(topPanel);
 	}
 
-	auto snowflakeHandler = make_shared<SnowflakeHandler>();
+	auto itemsHandler = make_shared<ItemsHandler>();
 	{
-		snowflakeHandler->Initialize(shared_from_this(), player);
-		snowflakeHandler->SetMaximumSnowflakes(10);
-		snowflakeHandler->Subscribe(topPanel);
-		m_entities.emplace_back(snowflakeHandler);
+		itemsHandler->Initialize(shared_from_this(), player);
+		itemsHandler->SetMaximumSnowflakes(15);
+		itemsHandler->SetMaximumHealthPack(1);
+		itemsHandler->Subscribe(topPanel);
+		m_entities.emplace_back(itemsHandler);
 	}
 }
 

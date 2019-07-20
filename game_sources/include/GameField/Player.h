@@ -14,7 +14,7 @@ public:
 	void ProcessInput() override;
 	void Update(size_t dt) override;
 
-	sf::FloatRect GetBBox() const;
+	sf::FloatRect GetBBox() const override;
 
 	shared_ptr<PlayField> GetPlayField() const { return m_field.lock(); }
 

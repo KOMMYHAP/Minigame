@@ -16,6 +16,16 @@ void HealthPack::Initialize(shared_ptr<PlayField> playfield)
 	}
 }
 
+void HealthPack::Update(size_t dt)
+{
+	move(0, 1.3f);
+}
+
+sf::FloatRect HealthPack::GetBBox() const
+{
+	return getTransform().transformRect(m_sprite.getGlobalBounds());
+}
+
 void HealthPack::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(getTransform());

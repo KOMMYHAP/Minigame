@@ -18,6 +18,7 @@ add_sources(
 	GameField/PlayField.cpp
 	GameField/GameLogic.cpp
 	GameField/HealthPack.cpp
+	GameField/ItemsHandler.cpp
 )
 
 add_sources(
