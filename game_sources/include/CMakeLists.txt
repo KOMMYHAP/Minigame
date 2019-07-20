@@ -16,3 +16,8 @@ add_sources(
 	GameField/PlayField.h
 	GameField/GameLogic.h
 )
+
+add_sources(
+	MainMenu/MainMenu.h
+	MainMenu/PushButton.h
+)

@@ -23,7 +23,8 @@ void InputController::ProcessInput(shared_ptr<sf::Window> window)
 			event.type == sf::Event::MouseButtonReleased) 
 		{ 
 			bool isPressed = event.type == sf::Event::MouseButtonPressed;
-			m_isLeftClick = isPressed;
+			m_isMousePressed = isPressed;
+			m_mousePos = { event.mouseButton.x, event.mouseButton.y};
 		}
 	} 
 }
@@ -36,4 +37,4 @@ bool InputController::IsPressed(Key key) const
 		return it->second;
 	}
 	return false;
-} 
+}

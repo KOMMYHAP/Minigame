@@ -34,7 +34,7 @@ void PlayField::Initialize(shared_ptr<InputController> controller, shared_ptr<Re
 		ptr->play();
 	}
 
-	if (auto ptr = resources->GetTexture(Images::UNKNOWN))
+	if (auto ptr = resources->GetDefaultTexture())
 	{
 		m_sprite = sf::Sprite(*ptr);
 		m_sprite.setTextureRect({0, 0, int(window->getSize().x), int(window->getSize().y)});

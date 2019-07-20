@@ -4,6 +4,7 @@
 #include "General/ResourceHandler.h"
 
 #include "GameField/PlayField.h"
+#include "MainMenu/MainMenu.h"
 
 int main(int argc, char **argv)
 {
@@ -14,8 +15,13 @@ int main(int argc, char **argv)
 	auto inputController = make_shared<InputController>();
 	auto resourceHandler = make_shared<ResourceHandler>();
 
-	auto playField = make_shared<PlayField>();
-	playField->Initialize(inputController, resourceHandler, window);
+	// auto playField = make_shared<PlayField>();
+	// playField->Initialize(inputController, resourceHandler, window);
+
+	auto mainMenu = make_shared<MainMenu>();
+	mainMenu->Initialize(resourceHandler, inputController);
+
+	shared_ptr<Entity> scene = mainMenu;
 
 	sf::Clock clock;
 	const auto timePerFrame = static_cast<int>(std::ceil(1000.0f / 60.0f));
@@ -29,18 +35,18 @@ int main(int argc, char **argv)
 			break;
 		}
 
-		playField->ProcessInput();
+		scene->ProcessInput();
 
 		int dt = clock.getElapsedTime().asMilliseconds();
 
 		do
 		{
-			playField->Update(dt);
+			scene->Update(dt);
 			dt -= timePerFrame;
 		} while (dt >= timePerFrame);
 
         window->clear();
-        window->draw(*playField);
+        window->draw(*scene);
         window->display();
 
 		clock.restart();

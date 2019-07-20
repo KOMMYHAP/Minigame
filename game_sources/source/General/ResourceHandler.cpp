@@ -6,7 +6,41 @@
 
 ResourceHandler::ResourceHandler()
 {
-	m_images[Images::UNKNOWN] = make_unique<sf::Texture>(CreateDefaultTexture());
+	m_textures[Textures::DEFAULT] = make_unique<sf::Texture>(CreateDefaultTexture());
+}
+
+bool ResourceHandler::LoadTexture(Textures::Id id, const string& path)
+{
+	if (m_textures.find(id) != m_textures.end())
+	{
+		return true;
+	}
+
+	auto texture = make_unique<sf::Texture>();
+	bool success = texture->loadFromFile(path);
+	if (success)
+	{
+		texture->setRepeated(true);
+		texture->setSmooth(true);
+		m_textures[id] = move(texture);	
+	}
+
+	return success;
+}
+
+const sf::Texture* ResourceHandler::GetTexture(Textures::Id id) const
+{
+	auto it = m_textures.find(id);
+	if (it != m_textures.end())
+	{
+		return it->second.get();
+	}
+	return nullptr;
+}
+
+const sf::Texture* ResourceHandler::GetDefaultTexture() const
+{
+	return GetTexture(Textures::DEFAULT);
 }
 
 bool ResourceHandler::LoadImage(Images::Id id, const string& path)
@@ -26,15 +60,14 @@ bool ResourceHandler::LoadImage(Images::Id id, const string& path)
 	return success;
 }
 
-const sf::Texture* ResourceHandler::GetTexture(Images::Id id) const
+const sf::Texture* ResourceHandler::GetImage(Images::Id id) const
 {
 	auto it = m_images.find(id);
 	if (it != m_images.end())
 	{
 		return it->second.get();
 	}
-	LOG_ERROR("ResourceHandler could not find texture %1%!", id);
-	return m_images.at(Images::UNKNOWN).get();
+	return nullptr;
 }
 
 bool ResourceHandler::LoadFont(Fonts::Id id, const string & path)
@@ -54,7 +87,7 @@ bool ResourceHandler::LoadFont(Fonts::Id id, const string & path)
 	return success;
 }
 
-const sf::Font * ResourceHandler::GetFont(Fonts::Id id) const 
+const sf::Font* ResourceHandler::GetFont(Fonts::Id id) const 
 {
 	auto it = m_fonts.find(id);
 	if (it != m_fonts.end())

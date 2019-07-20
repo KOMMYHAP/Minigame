@@ -17,7 +17,7 @@ void Player::Initialize(shared_ptr<PlayField> playField)
 {
 	m_field = playField;
 	assert(LoadAll());
-	if (auto ptr = GetPlayField()->GetResources()->GetTexture(Images::GIRL))
+	if (auto ptr = GetPlayField()->GetResources()->GetImage(Images::GIRL))
 	{
 		m_sprite.setTexture(*ptr);
 		m_sprite.setScale(0.20f, 0.20f);

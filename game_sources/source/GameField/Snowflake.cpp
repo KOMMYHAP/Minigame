@@ -21,7 +21,7 @@ void Snowflake::Initialize(shared_ptr<PlayField> playfield)
 
 	bool success = resources->LoadImage(Images::SNOWFLAKE, "Resources/snowflake.png");
 	assert(success);
-	if (auto ptr = resources->GetTexture(Images::SNOWFLAKE))
+	if (auto ptr = resources->GetImage(Images::SNOWFLAKE))
 	{
 		m_sprite.setTexture(*ptr);	
 	}
