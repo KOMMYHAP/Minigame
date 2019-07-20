@@ -1,6 +1,6 @@
 #pragma once
 
-class InputController : enable_shared_from_this<InputController>
+class InputController
 { 
 public:
 	void ProcessInput(shared_ptr<sf::Window> window);

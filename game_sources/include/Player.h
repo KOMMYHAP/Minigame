@@ -46,5 +46,5 @@ private:
 
 	sf::Sprite							m_sprite;
 
-	weak_ptr<PlayField>				m_field;
+	weak_ptr<PlayField>					m_field;
 };

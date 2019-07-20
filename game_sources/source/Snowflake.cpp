@@ -2,8 +2,10 @@
 
 #include "Snowflake.h"
 
+#include "Player.h"
 #include "PlayField.h"
 #include "ResourceHandler.h"
+#include "GameListener.h"
 #include "BaseUtils.h"
 
 Snowflake::Snowflake()
@@ -64,10 +66,6 @@ void Snowflake::Update(size_t dt)
 
 sf::FloatRect Snowflake::GetBBox() const
 {
-	// sf::FloatRect bbox = {
-	// 	getPosition().x, getPosition().y,
-	// 	m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().
-	// };
 	return getTransform().transformRect(m_sprite.getGlobalBounds());
 }
 
@@ -77,15 +75,18 @@ void Snowflake::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_sprite, states);
 }
 
-// <----------------------   SnowflakeHandler   ----------------------------->
+// |------------- SnowflakeHandler -------------.
+//												 \
+//												 \/
 
 SnowflakeHandler::SnowflakeHandler()
 {
 }
 
-void SnowflakeHandler::Initialize(shared_ptr<PlayField> playfield)
+void SnowflakeHandler::Initialize(shared_ptr<PlayField> playfield, shared_ptr<Player> player)
 {
 	m_playfield = playfield;
+	m_player= player;
 	m_random = playfield->GetRandom();
 }
 
@@ -103,12 +104,29 @@ void SnowflakeHandler::Update(size_t dt)
 		DoPlacingSnowflake(snowflake);
 	}
 
+	decltype(m_snowflakes) toRemove;
+
 	for (auto && snowflake : m_snowflakes)
 	{
 		snowflake->Update(dt);
+
+		if (TouchedPlayer(snowflake))
+		{
+			toRemove.push_back(snowflake);
+			CallEvent(GameEvent::TOUCH_PLAYER, snowflake);
+		} 
+		else if (TouchedTheGround(snowflake))
+		{
+			toRemove.push_back(snowflake);
+			CallEvent(GameEvent::TOUCH_GROUND, snowflake);
+		}
 	}
 
-	RemovedDeadSnowflakes();
+	while (!toRemove.empty())
+	{
+		BaseUtils::Remove(m_snowflakes, toRemove.back());
+		toRemove.pop_back();
+	}
 }
 
 void SnowflakeHandler::TryToCreateSnowflake()
@@ -131,6 +149,14 @@ void SnowflakeHandler::draw(sf::RenderTarget& target, sf::RenderStates states) c
 	}
 }
 
+void SnowflakeHandler::CallEvent(GameEvent event, shared_ptr<Entity> sender)
+{
+	for (auto && listener : m_listeners)
+	{
+		listener->Call(event, sender);
+	}
+}
+
 bool SnowflakeHandler::TouchedTheGround(shared_ptr<Snowflake> snowflake) const
 {
 	auto playfield = GetPlayfield();
@@ -138,19 +164,11 @@ bool SnowflakeHandler::TouchedTheGround(shared_ptr<Snowflake> snowflake) const
 	return snowflake->getPosition().y + snowflake->GetBBox().height >= groundY;
 }
 
-void SnowflakeHandler::RemovedDeadSnowflakes()
+bool SnowflakeHandler::TouchedPlayer(shared_ptr<Snowflake> snowflake) const
 {
-	for (auto it = m_snowflakes.begin(); it != m_snowflakes.end(); )
-	{
-		if (TouchedTheGround(*it))
-		{
-			it = m_snowflakes.erase(it);
-		}
-		else
-		{
-			++it;
-		}
-	}
+	auto bbox = snowflake->GetBBox();
+	auto player = GetPlayer()->GetBBox();
+	return player.intersects(bbox);
 }
 
 void SnowflakeHandler::DoPlacingSnowflake(shared_ptr<Snowflake> snowflake)

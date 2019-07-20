@@ -5,5 +5,8 @@ add_sources(
 	Entity.h
 	Snowflake.h
 	Player.h
+	TopPanel.h
 	PlayField.h
+	GameListener.h
+	GameLogic.h
 )

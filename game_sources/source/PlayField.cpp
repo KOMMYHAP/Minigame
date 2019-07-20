@@ -5,6 +5,8 @@
 #include "ResourceHandler.h"
 #include "Player.h"
 #include "Snowflake.h"
+#include "TopPanel.h"
+#include "LogMessageManager.h"
 
 PlayField::PlayField()
 	: m_random(make_shared<std::mt19937>())
@@ -41,19 +43,47 @@ void PlayField::Initialize(shared_ptr<InputController> controller, shared_ptr<Re
 
 	auto player = make_shared<Player>();
 	{
-		player->Initialize(shared_from_this());
-		
+		player->Initialize(shared_from_this());		
 		player->setPosition(bbox.left + bbox.width / 2.f - player->GetBBox().width / 2.f, bbox.top + bbox.height - player->GetBBox().height);
+		m_entities.emplace_back(player);
+	}
+
+	auto topPanel = make_shared<TopPanel>();
+	{
+		topPanel->Initialize(shared_from_this());
+		topPanel->Subscribe(shared_from_this());
+		m_entities.emplace_back(topPanel);
 	}
 
 	auto snowflakeHandler = make_shared<SnowflakeHandler>();
 	{
-		snowflakeHandler->Initialize(shared_from_this());
+		snowflakeHandler->Initialize(shared_from_this(), player);
 		snowflakeHandler->SetMaximumSnoflakes(10);
+		snowflakeHandler->Subscribe(topPanel);
+		m_entities.emplace_back(snowflakeHandler);
 	}
-	
-	m_entities.emplace_back(player);
-	m_entities.emplace_back(snowflakeHandler);
+}
+
+void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
+{
+	if (auto scorePanel = std::dynamic_pointer_cast<ScorePanel>(sender))
+	{
+		switch (event)
+		{
+		case GameEvent::MORE_SCORES:
+		{
+			auto scores = scorePanel->GetScores();
+			if (scores >= m_scoresToWin)
+			{
+				LOG_MESSAGE("-----> YOU ARE WINNER! <-----");
+			}
+			break;
+		}
+		default:
+			LOG_WARNING("ScorePanel send unknown event [%1%] to a PlayField", static_cast<size_t>(event));
+			break;
+		}	
+	}
 }
 
 void PlayField::ProcessInput()
@@ -77,28 +107,10 @@ sf::FloatRect PlayField::GetBBox() const
 	return getTransform().transformRect(m_sprite.getGlobalBounds());
 }
 
-sf::Vector2f PlayField::MoveToHorizontalBorder(const sf::FloatRect& playerRect) const
-{
-	sf::Vector2f validPos = {playerRect.left, playerRect.top};
-
-	auto && playfieldBbox = GetBBox();
-
-	if (playerRect.left <= playfieldBbox.left)
-	{
-		validPos.x = playfieldBbox.left;
-	}
-	else if (playerRect.left + playerRect.width >= playfieldBbox.left + playfieldBbox.width)
-	{
-		validPos.x = playfieldBbox.left + playfieldBbox.width - playerRect.width;
-	}
-
-	return validPos;
-}
-
 void PlayField::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(getTransform());
-	target.draw(m_sprite, states);
+	// target.draw(m_sprite, states);
 	
 	for (auto && entity : m_entities)
 	{

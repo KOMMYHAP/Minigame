@@ -6,4 +6,7 @@ add_sources(
 	Snowflake.cpp
 	PlayField.cpp
 	Entity.cpp
+	TopPanel.cpp
+	GameListener.cpp
+	GameLogic.cpp
 )

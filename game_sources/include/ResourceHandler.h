@@ -29,7 +29,7 @@ namespace Music
 	};
 }
 
-class ResourceHandler : enable_shared_from_this<ResourceHandler>
+class ResourceHandler
 {
 public:
 	ResourceHandler();
