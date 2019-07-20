@@ -28,16 +28,19 @@ void Player::ProcessInput()
 {
 	auto input = GetPlayField()->GetController();
 	
-	if (input->IsPressed(sf::Keyboard::W) || input->IsPressed(sf::Keyboard::Up) || input->IsPressed(sf::Keyboard::Space))
+	if (input->IsKeyDown(sf::Keyboard::W) || input->IsKeyDown(sf::Keyboard::Up) || input->IsKeyDown(sf::Keyboard::Space))
 	{
-		CreateJump();	
+		if (!m_jump)
+		{
+			CreateJump();	
+		}
 	}
 	
-	if (input->IsPressed(sf::Keyboard::A) || input->IsPressed(sf::Keyboard::Left))
+	if (input->IsKeyDown(sf::Keyboard::A) || input->IsKeyDown(sf::Keyboard::Left))
 	{
 		m_velocity.x = -m_maxVelocity.x;
 	}
-	else if (input->IsPressed(sf::Keyboard::D) || input->IsPressed(sf::Keyboard::Right))
+	else if (input->IsKeyDown(sf::Keyboard::D) || input->IsKeyDown(sf::Keyboard::Right))
 	{
 		m_velocity.x = m_maxVelocity.x;	
 	}
@@ -76,14 +79,10 @@ sf::FloatRect Player::GetBBox() const
 
 void Player::CreateJump()
 {
-	if (!m_jump)
-	{
-		m_jump = make_unique<JumpHelper>();
-
-		m_jump->startY = getPosition().y;
-		m_jump->endY = m_jump->startY - m_jump->m_jumpHeight;
-		m_velocity.y = m_maxVelocity.y;
-	}
+	m_jump = make_unique<JumpHelper>();
+	m_jump->startY = getPosition().y;
+	m_jump->endY = m_jump->startY - m_jump->m_jumpHeight;
+	m_velocity.y = m_maxVelocity.y;
 }
 
 void Player::UpdateJump()
@@ -116,7 +115,11 @@ void Player::UpdateJump()
 
 void Player::UpdateMoving()
 {
-	m_velocity.x *= 0.5f;
+	m_velocity.x *= 0.5;
+	if (std::abs(m_velocity.x) < 5.0f)
+	{
+		m_velocity.x = 0.0;
+	}
 }
 
 bool Player::LoadAll()

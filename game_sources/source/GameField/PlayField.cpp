@@ -6,6 +6,7 @@
 #include "GameField/TopPanel.h"
 
 #include "General/ResourceHandler.h"
+#include "General/InputController.h"
 
 #include "LogMessageManager.h"
 
@@ -50,15 +51,6 @@ void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
 void PlayField::OnStartScene()
 {
 	LOG_MESSAGE("Scene [PlayField] started.");
-	if (m_isLoaded)
-	{
-		if (auto ptr = GetResources()->GetMusic(Music::PLAYFIELD))
-		{
-			ptr->play();
-		}
-
-		return;
-	}
 
 	auto resources = m_callback->GetResources();
 	auto window = m_callback->GetRenderWindow();
@@ -99,8 +91,6 @@ void PlayField::OnStartScene()
 		snowflakeHandler->Subscribe(topPanel);
 		m_entities.emplace_back(snowflakeHandler);
 	}
-
-	m_isLoaded = true;
 }
 
 void PlayField::OnEndScene()
@@ -108,12 +98,23 @@ void PlayField::OnEndScene()
 	LOG_MESSAGE("Scene [PlayField] completed.");
 	if (auto ptr = GetResources()->GetMusic(Music::PLAYFIELD))
 	{
-		ptr->pause();
+		ptr->stop();
 	}
 }
 
 void PlayField::ProcessInput()
 {
+	auto input = m_callback->GetController();
+
+	if (input->IsJustPressed(sf::Keyboard::P))
+	{
+		if (auto music = GetResources()->GetMusic(Music::PLAYFIELD))
+		{
+			m_onPause ? music->play() : music->pause();
+		}
+		m_onPause = !m_onPause;
+	}
+
 	for (auto && entity : m_entities)
 	{
 		entity->ProcessInput();
@@ -122,6 +123,11 @@ void PlayField::ProcessInput()
 
 void PlayField::Update(size_t dt)
 {
+	if (m_onPause)
+	{
+		return;
+	}
+
 	for (auto && entity : m_entities)
 	{
 		entity->Update(dt);

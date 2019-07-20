@@ -162,7 +162,7 @@ bool SnowflakeHandler::TouchedTheGround(shared_ptr<Snowflake> snowflake) const
 {
 	auto playfield = GetPlayfield();
 	auto groundY = playfield->GetBBox().top + playfield->GetBBox().height;
-	return snowflake->getPosition().y + snowflake->GetBBox().height >= groundY;
+	return snowflake->getPosition().y + snowflake->GetBBox().height / 2.0f >= groundY;
 }
 
 bool SnowflakeHandler::TouchedPlayer(shared_ptr<Snowflake> snowflake) const

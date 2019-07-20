@@ -41,6 +41,9 @@ private:
 
 	const sf::Vector2f					m_maxVelocity;
 
+	bool								m_jumpIsPressed {false};
+	bool								m_isStopping {false};
+
 	sf::Vector2f						m_velocity;
 	unique_ptr<JumpHelper>				m_jump;
 

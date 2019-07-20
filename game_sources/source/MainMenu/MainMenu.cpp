@@ -13,7 +13,8 @@ void MainMenu::Initialize(shared_ptr<GameSceneCallback> callback)
 void MainMenu::OnStartScene()
 {
 	LOG_MESSAGE("Scene [MainMenu] started.");
-	if (!m_isFirstShow)
+
+	if (m_isLoaded)
 	{
 		return;
 	}
@@ -28,6 +29,7 @@ void MainMenu::OnStartScene()
 			m_callback->RequireScene(GameScenes::PLAYFIELD);
 		});	
 		m_entities.push_back(start);
+		m_startGameButton = start;
 	}
 
 	auto setName = make_shared<PushButton>();
@@ -53,7 +55,7 @@ void MainMenu::OnStartScene()
 		m_entities.push_back(exit);
 	}
 
-	m_isFirstShow = false;
+	m_isLoaded = true;
 }
 
 void MainMenu::OnEndScene()

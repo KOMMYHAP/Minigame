@@ -18,7 +18,7 @@ Game::Game()
 void Game::Initialize(int argc, char** argv)
 {
 	m_window->create(sf::VideoMode(800, 600), "Snowflake", sf::Style::Titlebar | sf::Style::Close);
-
+	m_window->setKeyRepeatEnabled(false);
 	
 	auto sceneCallback = make_shared<GameSceneCallback>();
 	sceneCallback->Initialize(shared_from_this());

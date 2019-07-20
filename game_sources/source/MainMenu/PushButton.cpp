@@ -123,6 +123,7 @@ void PushButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	auto combined = getTransform() * (m_pressed ? m_pressingTrasform : sf::Transform::Identity);
 	states.transform.combine(combined);
 	target.draw(m_sprite, states);
+	states.transform.combine(m_sprite.getTransform());
 	target.draw(m_text, states);
 
 }
