@@ -1,5 +1,6 @@
 add_sources(
 	main.cpp
+	Game.cpp
 )
 
 add_sources(
@@ -7,6 +8,7 @@ add_sources(
 	General/GameListener.cpp
 	General/Entity.cpp
 	General/ResourceHandler.cpp
+	General/GameScene.cpp
 )
 
 add_sources(

@@ -16,16 +16,52 @@ PlayField::PlayField()
 
 PlayField::~PlayField()
 {
-	if (auto ptr = GetResources()->GetMusic(Music::PLAYFIELD))
+	
+}
+
+void PlayField::Initialize(shared_ptr<GameSceneCallback> callback)
+{
+	m_callback = callback;
+}
+
+void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
+{
+	if (auto scorePanel = std::dynamic_pointer_cast<ScorePanel>(sender))
 	{
-		ptr->stop();
+		switch (event)
+		{
+		case GameEvent::MORE_SCORES:
+		{
+			auto scores = scorePanel->GetScores();
+			if (scores >= m_scoresToWin)
+			{
+				m_callback->RequireScene(GameScenes::MAIN_MENU);
+				LOG_MESSAGE("-----> YOU ARE WINNER! <-----");
+			}
+			break;
+		}
+		default:
+			LOG_WARNING("ScorePanel send unknown event [%1%] to a PlayField", static_cast<size_t>(event));
+			break;
+		}	
 	}
 }
 
-void PlayField::Initialize(shared_ptr<InputController> controller, shared_ptr<ResourceHandler> resources, shared_ptr<sf::Window> window)
+void PlayField::OnStartScene()
 {
-	m_input = controller;
-	m_resources = resources;
+	LOG_MESSAGE("Scene [PlayField] started.");
+	if (m_isLoaded)
+	{
+		if (auto ptr = GetResources()->GetMusic(Music::PLAYFIELD))
+		{
+			ptr->play();
+		}
+
+		return;
+	}
+
+	auto resources = m_callback->GetResources();
+	auto window = m_callback->GetRenderWindow();
 
 	resources->LoadMusic(Music::PLAYFIELD, "Resources/test.ogg");
 	if (auto ptr = resources->GetMusic(Music::PLAYFIELD))
@@ -63,27 +99,16 @@ void PlayField::Initialize(shared_ptr<InputController> controller, shared_ptr<Re
 		snowflakeHandler->Subscribe(topPanel);
 		m_entities.emplace_back(snowflakeHandler);
 	}
+
+	m_isLoaded = true;
 }
 
-void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
+void PlayField::OnEndScene()
 {
-	if (auto scorePanel = std::dynamic_pointer_cast<ScorePanel>(sender))
+	LOG_MESSAGE("Scene [PlayField] completed.");
+	if (auto ptr = GetResources()->GetMusic(Music::PLAYFIELD))
 	{
-		switch (event)
-		{
-		case GameEvent::MORE_SCORES:
-		{
-			auto scores = scorePanel->GetScores();
-			if (scores >= m_scoresToWin)
-			{
-				LOG_MESSAGE("-----> YOU ARE WINNER! <-----");
-			}
-			break;
-		}
-		default:
-			LOG_WARNING("ScorePanel send unknown event [%1%] to a PlayField", static_cast<size_t>(event));
-			break;
-		}	
+		ptr->pause();
 	}
 }
 
@@ -103,18 +128,16 @@ void PlayField::Update(size_t dt)
 	}
 }
 
-sf::FloatRect PlayField::GetBBox() const
+void PlayField::Draw(sf::RenderWindow& window)
 {
-	return getTransform().transformRect(m_sprite.getGlobalBounds());
-}
-
-void PlayField::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	states.transform.combine(getTransform());
-	// target.draw(m_sprite, states);
-	
+	sf::RenderStates states;
 	for (auto && entity : m_entities)
 	{
-		target.draw(*entity, states);
+		window.draw(*entity, states);
 	}
+}
+
+sf::FloatRect PlayField::GetBBox() const
+{
+	return m_sprite.getGlobalBounds();
 }

@@ -1,23 +1,25 @@
 #pragma once
 
-#include "General/Entity.h"
+#include "General/GameScene.h"
 
-class MainMenu : public Entity, public enable_shared_from_this<MainMenu>
+class MainMenu : public GameScene, public enable_shared_from_this<MainMenu>
 {
 public:
-	void Initialize(shared_ptr<ResourceHandler> resources, shared_ptr<InputController> input);
+	void Initialize(shared_ptr<GameSceneCallback> callback);
+
+	void OnStartScene() override;
+	void OnEndScene() override;
 
 	void ProcessInput() override;
 	void Update(size_t dt) override;
+	void Draw(sf::RenderWindow& window) override;
 
-	shared_ptr<InputController> GetController() const { return m_input.lock(); }
-	shared_ptr<ResourceHandler> GetResources() const { return m_resources.lock(); }
+	shared_ptr<InputController> GetController() const { return m_callback->GetController(); }
+	shared_ptr<ResourceHandler> GetResources() const { return m_callback->GetResources(); }
 
 private:
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	bool								m_isFirstShow {true};
 
 	vector<shared_ptr<Entity>>			m_entities;
-	
-	weak_ptr<InputController>			m_input;
-	weak_ptr<ResourceHandler>			m_resources;
+	shared_ptr<GameSceneCallback>		m_callback;
 };

@@ -1,4 +1,5 @@
 add_sources(
+	Game.h
 	stdafx_game.h
 )
 
@@ -7,6 +8,7 @@ add_sources(
 	General/GameListener.h
 	General/Entity.h
 	General/ResourceHandler.h
+	General/GameScene.h
 )
 
 add_sources(

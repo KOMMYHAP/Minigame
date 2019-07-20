@@ -2,20 +2,30 @@
 
 #include "MainMenu/MainMenu.h"
 #include "MainMenu/PushButton.h"
+#include "General/GameScene.h"
 #include "LogMessageManager.h"
 
-void MainMenu::Initialize(shared_ptr<ResourceHandler> resources, shared_ptr<InputController> input)
+void MainMenu::Initialize(shared_ptr<GameSceneCallback> callback)
 {
-	m_resources = resources;
-	m_input = input;
+	m_callback = callback;
+}
+
+void MainMenu::OnStartScene()
+{
+	LOG_MESSAGE("Scene [MainMenu] started.");
+	if (!m_isFirstShow)
+	{
+		return;
+	}
 	
 	auto start = make_shared<PushButton>();
 	{
 		auto buttonRect = sf::FloatRect(250, 250, 300, 100);
 		start->Initialize(shared_from_this(), buttonRect, "Start Game");
-		start->SetOnClick([]()
+		start->SetOnClick([this]()
 		{
 			LOG_MESSAGE("Game started!");
+			m_callback->RequireScene(GameScenes::PLAYFIELD);
 		});	
 		m_entities.push_back(start);
 	}
@@ -35,12 +45,20 @@ void MainMenu::Initialize(shared_ptr<ResourceHandler> resources, shared_ptr<Inpu
 	{
 		auto buttonRect = sf::FloatRect(250, 450, 300, 100);
 		exit->Initialize(shared_from_this(), buttonRect, "Exit");
-		exit->SetOnClick([]()
+		exit->SetOnClick([this]()
 		{
 			LOG_MESSAGE("Game exited!");
+			m_callback->RequireQuitGame();
 		});	
 		m_entities.push_back(exit);
 	}
+
+	m_isFirstShow = false;
+}
+
+void MainMenu::OnEndScene()
+{
+	LOG_MESSAGE("Scene [MainMenu] completed.");
 }
 
 void MainMenu::ProcessInput()
@@ -59,11 +77,11 @@ void MainMenu::Update(size_t dt)
 	}
 }
 
-void MainMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void MainMenu::Draw(sf::RenderWindow& window)
 {
-	states.transform.combine(getTransform());
+	sf::RenderStates states;
 	for (auto && entity : m_entities)
 	{
-		target.draw(*entity, states);
+		window.draw(*entity, states);
 	}
 }

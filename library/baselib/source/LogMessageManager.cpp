@@ -65,16 +65,18 @@ string LogMessageManager::GetMessagePrefix() const
 		time.resize(bytes);
 	}
 
+	auto place = "[file: \"" + m_file + "\", line: " + std::to_string(m_line) + "] ";
+
 	switch (m_messageType)
 	{
 	case Type::PLAIN:
-		return "";
+		return time + "";
 	case Type::WARNING:
 		return time + "WARNING: ";
 	case Type::ERROR:
-		return time + "ERROR: ";
+		return time + place + "ERROR: ";
 	case Type::FATAL_ERROR:
-		return time + id + "FATAL ERROR: ";
+		return time + id + place + "FATAL ERROR: ";
 	default:
 		return "";
 	}
