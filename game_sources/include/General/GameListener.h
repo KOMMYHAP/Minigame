@@ -6,7 +6,7 @@ enum class GameEvent
 {
 	TOUCH_PLAYER,
 	TOUCH_GROUND,
-	MORE_SCORES,
+	CUTSCENE_TRIGGER,
 	END_OF_LIFE,
 	COUNT
 };

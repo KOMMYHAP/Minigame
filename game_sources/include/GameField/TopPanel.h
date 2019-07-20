@@ -50,9 +50,9 @@ private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 
-	const char *			m_format {"%03d"};
-	const int				m_maxLifes {999};
-	int						m_lifes {10};
+	const char *			m_format	{"%03d"};
+	const int				m_maxLifes	{999};
+	int						m_lifes		{10};
 
 	sf::Sprite				m_sprite;
 	unique_ptr<sf::Text>	m_text;
@@ -67,6 +67,7 @@ public:
 	
 	void OnMiss();
 	void OnTouch();
+	bool IsEnoughScoresForWin() const { return GetScores() >= m_scoresForWin; }
 	
 	size_t GetScores()			const	{ return m_number; }
 	size_t GeNextScoresNumber() const	{ return m_nextNumber; }
@@ -78,9 +79,10 @@ private:
 	void UpdateText() const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	
-	size_t const				m_minBonus		{6};
-	size_t const				m_maxCoef		{100};
+	size_t const				m_minBonus		{3};
+	size_t const				m_maxCoef		{999};
 	size_t const				m_maxNumber		{999999999ULL};
+	size_t const				m_scoresForWin	{   999999ULL};
 	const char *				m_format		{"Scores: %08llu \nMultiplier:  %03llu "};
 
 	size_t						m_nextNumber	{0};

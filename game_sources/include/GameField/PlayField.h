@@ -40,8 +40,6 @@ public:
 	shared_ptr<std::mt19937>	GetRandom() const { return m_random; }
 
 private:
-	size_t								m_scoresToWin {99999};
-
 	map<Event, vector<Action>>			m_actions;
 	vector<shared_ptr<Entity>>			m_entities;
 

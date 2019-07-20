@@ -21,9 +21,9 @@ public:
 private:
 	struct JumpHelper
 	{
-		const float		upCoef					{0.95f};
+		const float		upCoef					{0.8f};
 		const float		downCoef				{1.2f};
-		const float		initFlyingDownSpeed		{10.0f};
+		const float		initFlyingDownSpeed		{5.0f};
 		const float		m_jumpHeight			{100.f};
 
 		float	startY	{0.f};

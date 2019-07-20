@@ -59,7 +59,10 @@ void TopPanel::Call(GameEvent event, shared_ptr<Entity> sender)
 			break;
 		case GameEvent::TOUCH_PLAYER:
 			m_scores->OnTouch();
-			CallEvent(GameEvent::MORE_SCORES, m_scores);
+			if (m_scores->IsEnoughScoresForWin())
+			{
+				CallEvent(GameEvent::CUTSCENE_TRIGGER, m_scores);	
+			}
 			break;
 		default:
 			LOG_WARNING("Snowflake send unknown event [%1%] to a TopPanel", static_cast<size_t>(event));

@@ -32,14 +32,10 @@ void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
 	{
 		switch (event)
 		{
-		case GameEvent::MORE_SCORES:
+		case GameEvent::CUTSCENE_TRIGGER:
 		{
-			auto scores = scorePanel->GetScores();
-			if (scores >= m_scoresToWin)
-			{
-				m_callback->RequireScene(GameScenes::MAIN_MENU);
-				LOG_MESSAGE("-----> YOU ARE WINNER! <-----");
-			}
+			// m_callback->RequireScene(GameScenes::CUTSCENE);
+			LOG_MESSAGE("-----> YOU ARE WINNER! <-----");
 			break;
 		}
 		default:

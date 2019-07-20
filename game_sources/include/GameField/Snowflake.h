@@ -32,7 +32,7 @@ private:
 
 	} m_jitter;
 
-	float						m_velocityY {1.5f};
+	float						m_velocityY {1.2f};
 	const float					m_angularVelocity {0.5};
 
 	sf::Vector2f				m_velocity;

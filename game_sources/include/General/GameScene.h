@@ -11,7 +11,7 @@ namespace GameScenes
 	{
 		MAIN_MENU,
 		PLAYFIELD,
-		// CUTSCENE,
+		CUTSCENE,
 		COUNT
 	};
 }
