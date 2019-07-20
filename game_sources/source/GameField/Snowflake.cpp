@@ -1,11 +1,12 @@
 #include "stdafx_game.h"
 
-#include "Snowflake.h"
+#include "GameField/Snowflake.h"
+#include "GameField/Player.h"
+#include "GameField/PlayField.h"
 
-#include "Player.h"
-#include "PlayField.h"
-#include "ResourceHandler.h"
-#include "GameListener.h"
+#include "General/ResourceHandler.h"
+#include "General/GameListener.h"
+
 #include "BaseUtils.h"
 
 Snowflake::Snowflake()

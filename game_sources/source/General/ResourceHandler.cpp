@@ -1,6 +1,7 @@
 #include "stdafx_game.h"
 
-#include "ResourceHandler.h"
+#include "General/ResourceHandler.h"
+
 #include "LogMessageManager.h" 
 
 ResourceHandler::ResourceHandler()

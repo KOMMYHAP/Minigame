@@ -1,10 +1,12 @@
 #include "stdafx_game.h"
 
-#include "TopPanel.h"
-#include "PlayField.h"
+#include "GameField/TopPanel.h"
+#include "GameField/PlayField.h"
+#include "GameField/Snowflake.h"
+
+#include "General/ResourceHandler.h"
+
 #include "LogMessageManager.h"
-#include "ResourceHandler.h"
-#include "Snowflake.h"
 
 TopPanel::TopPanel()
 {

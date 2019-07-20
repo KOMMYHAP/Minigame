@@ -1,6 +1,6 @@
 #include "stdafx_game.h"
 
-#include "InputController.h"
+#include "General/InputController.h"
  
 void InputController::ProcessInput(shared_ptr<sf::Window> window) 
 { 

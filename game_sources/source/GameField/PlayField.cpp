@@ -1,11 +1,12 @@
 #include "stdafx_game.h"
 
-#include "PlayField.h"
+#include "GameField/PlayField.h"
+#include "GameField/Player.h"
+#include "GameField/Snowflake.h"
+#include "GameField/TopPanel.h"
 
-#include "ResourceHandler.h"
-#include "Player.h"
-#include "Snowflake.h"
-#include "TopPanel.h"
+#include "General/ResourceHandler.h"
+
 #include "LogMessageManager.h"
 
 PlayField::PlayField()

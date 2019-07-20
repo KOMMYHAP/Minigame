@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.h"
+#include "General/Entity.h"
 
 enum class GameEvent;
 class Player;

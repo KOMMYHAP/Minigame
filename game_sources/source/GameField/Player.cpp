@@ -1,10 +1,10 @@
 #include "stdafx_game.h"
 
-#include "Player.h"
-#include "PlayField.h"
+#include "GameField/Player.h"
+#include "GameField/PlayField.h"
 
-#include "ResourceHandler.h"
-#include "InputController.h"
+#include "General/ResourceHandler.h"
+#include "General/InputController.h"
 
 #include "LogMessageManager.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Entity.h"
-#include "GameListener.h"
+#include "General/Entity.h"
+#include "General/GameListener.h"
 
 class Player;
 class SnowflakeHandler;

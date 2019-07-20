@@ -1,17 +1,18 @@
 #include "stdafx_game.h"
-#include "InputController.h"
-#include "ResourceHandler.h"
 
-#include "PlayField.h"
+#include "General/InputController.h"
+#include "General/ResourceHandler.h"
+
+#include "GameField/PlayField.h"
 
 int main(int argc, char **argv)
 {
-	auto inputController = make_shared<InputController>();
-	auto resourceHandler = make_shared<ResourceHandler>();
-	
 	auto window = make_shared<sf::RenderWindow>();
 	window->create(sf::VideoMode(800, 600), "Snowflake", sf::Style::Titlebar | sf::Style::Close);
 	window->setFramerateLimit(60);
+	
+	auto inputController = make_shared<InputController>();
+	auto resourceHandler = make_shared<ResourceHandler>();
 
 	auto playField = make_shared<PlayField>();
 	playField->Initialize(inputController, resourceHandler, window);
