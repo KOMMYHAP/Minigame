@@ -17,7 +17,8 @@ namespace Images
 	{
 		GIRL,
 		SNOWFLAKE,
-		BUTTON,
+		HEART,
+		BEER,
 		COUNT	
 	};
 }

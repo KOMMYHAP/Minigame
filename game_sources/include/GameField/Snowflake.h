@@ -52,7 +52,7 @@ public:
 	void ProcessInput() override;
 	void Update(size_t dt) override;
 
-	void SetMaximumSnoflakes(size_t number) { m_maxSnowflakeNumber = number; }
+	void SetMaximumSnowflakes(size_t number) { m_maxSnowflakeNumber = number; }
 	void TryToCreateSnowflake();
 
 	void Subscribe(shared_ptr<GameListener> listener) { m_listeners.emplace_back(std::move(listener)); }

@@ -17,6 +17,7 @@ add_sources(
 	GameField/TopPanel.cpp
 	GameField/PlayField.cpp
 	GameField/GameLogic.cpp
+	GameField/HealthPack.cpp
 )
 
 add_sources(

@@ -9,6 +9,7 @@
 #include "General/InputController.h"
 
 #include "LogMessageManager.h"
+#include "GameField/HealthPack.h"
 
 PlayField::PlayField()
 	: m_random(make_shared<std::mt19937>())
@@ -46,11 +47,27 @@ void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
 			break;
 		}	
 	}
+
+	if (auto healthPanel = std::dynamic_pointer_cast<HealthPanel>(sender))
+	{
+		switch (event)
+		{
+		case GameEvent::END_OF_LIFE:
+			m_callback->RequireScene(GameScenes::MAIN_MENU);
+			LOG_MESSAGE("-----> YOU ARE LOOSER! <-----");
+			break;
+		default:
+			LOG_WARNING("HealthPanel send unknown event [%1%] to a PlayField", static_cast<size_t>(event));
+			break;
+		}
+	}
 }
 
 void PlayField::OnStartScene()
 {
 	LOG_MESSAGE("Scene [PlayField] started.");
+
+	m_entities.clear();
 
 	auto resources = m_callback->GetResources();
 	auto window = m_callback->GetRenderWindow();
@@ -68,11 +85,10 @@ void PlayField::OnStartScene()
 		m_sprite.setTextureRect({0, 0, int(window->getSize().x), int(window->getSize().y)});
 	}
 
-	auto && bbox = GetBBox();
-
 	auto player = make_shared<Player>();
 	{
-		player->Initialize(shared_from_this());		
+		player->Initialize(shared_from_this());
+		auto && bbox = GetBBox();
 		player->setPosition(bbox.left + bbox.width / 2.f - player->GetBBox().width / 2.f, bbox.top + bbox.height - player->GetBBox().height);
 		m_entities.emplace_back(player);
 	}
@@ -87,7 +103,7 @@ void PlayField::OnStartScene()
 	auto snowflakeHandler = make_shared<SnowflakeHandler>();
 	{
 		snowflakeHandler->Initialize(shared_from_this(), player);
-		snowflakeHandler->SetMaximumSnoflakes(10);
+		snowflakeHandler->SetMaximumSnowflakes(10);
 		snowflakeHandler->Subscribe(topPanel);
 		m_entities.emplace_back(snowflakeHandler);
 	}
@@ -105,6 +121,12 @@ void PlayField::OnEndScene()
 void PlayField::ProcessInput()
 {
 	auto input = m_callback->GetController();
+
+	if (input->IsJustPressed(sf::Keyboard::Escape))
+	{
+		m_callback->RequireScene(GameScenes::MAIN_MENU);
+		return;
+	}
 
 	if (input->IsJustPressed(sf::Keyboard::P))
 	{

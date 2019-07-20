@@ -7,6 +7,7 @@ enum class GameEvent
 	TOUCH_PLAYER,
 	TOUCH_GROUND,
 	MORE_SCORES,
+	END_OF_LIFE,
 	COUNT
 };
 

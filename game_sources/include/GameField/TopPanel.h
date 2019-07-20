@@ -3,6 +3,7 @@
 #include "General/Entity.h"
 #include "General/GameListener.h"
 
+class HealthPanel;
 class PlayField;
 class ScorePanel;
 
@@ -24,9 +25,37 @@ private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	shared_ptr<ScorePanel>				m_scores;
+	shared_ptr<HealthPanel>				m_health;
 
 	vector<shared_ptr<GameListener>>	m_listeners;
 	weak_ptr<PlayField>					m_playfield;
+};
+
+class HealthPanel : public Entity
+{
+public:
+	HealthPanel();
+
+	void Initialize(shared_ptr<ResourceHandler> resources);
+
+	void OnMissingSnowlake();
+	void OnTouchingHealthPack();
+	sf::FloatRect GetBbox() const;
+
+	int GetLifes() const { return m_lifes; }
+
+private:
+	void UpdateText() const;
+
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+
+	const char *			m_format {"%03d"};
+	const int				m_maxLifes {999};
+	int						m_lifes {10};
+
+	sf::Sprite				m_sprite;
+	unique_ptr<sf::Text>	m_text;
 };
 
 class ScorePanel : public Entity

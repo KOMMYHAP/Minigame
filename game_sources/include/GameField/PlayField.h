@@ -45,6 +45,7 @@ private:
 	map<Event, vector<Action>>			m_actions;
 	vector<shared_ptr<Entity>>			m_entities;
 
+	bool								m_isLoaded {false};
 	bool								m_onPause {false};
 	sf::Sprite							m_sprite;
 
