@@ -49,7 +49,7 @@ void PushButton::SetText(const string& text, size_t size, sf::Color fillColor, s
 		if (auto ptr = resources->GetFont(Fonts::DEFAULT))
 		{
 			m_text.setFont(*ptr);
-			m_text.setCharacterSize(size);
+			m_text.setCharacterSize(static_cast<sf::Uint32>(size));
 			m_text.setFillColor(fillColor);
 			m_text.setOutlineColor(outlineColor);
 		}

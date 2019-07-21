@@ -13,8 +13,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 	
 target_link_libraries(${PROJECT_NAME} 
 	baselib
-	#gamelib
 	sfmllib
+	opencvlib
 	${Boost_format_LIBRARY})
 
 set_precompiled_header(${PROJECT_NAME} "include/stdafx_game.h")

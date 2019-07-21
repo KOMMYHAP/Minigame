@@ -1,5 +1,7 @@
 #pragma once
 
+#include "General/VideoSource.h"
+
 namespace Textures
 {
 	enum Id
@@ -36,11 +38,21 @@ namespace Fonts
 	};
 }
 
-namespace Music
+namespace Musics
 {
 	enum Id
 	{
 		PLAYFIELD,
+		COUNT
+	};
+}
+
+namespace Videoes
+{
+	enum Id
+	{
+		PLAYFIELD_BACKGROUND,
+		CUTSCENE,
 		COUNT
 	};
 }
@@ -60,8 +72,11 @@ public:
 	bool LoadFont(Fonts::Id id, const string & path);
 	const sf::Font* GetFont(Fonts::Id id) const;
 	
-	bool LoadMusic(Music::Id id, const string & path);
-	sf::Music* GetMusic(Music::Id id) const;
+	bool LoadMusic(Musics::Id id, const string & path);
+	sf::Music* GetMusic(Musics::Id id) const;
+
+	bool LoadVideo(Videoes::Id id, const string &path);
+	const VideoSource * GetVideo(Videoes::Id id) const;
 
 private:
 	sf::Texture CreateDefaultTexture();
@@ -69,5 +84,6 @@ private:
 	map<Textures::Id, unique_ptr<sf::Texture>>	m_textures;
 	map<Images::Id, unique_ptr<sf::Texture>>	m_images;
 	map<Fonts::Id, unique_ptr<sf::Font>>		m_fonts;
-	map<Music::Id, unique_ptr<sf::Music>>		m_music;
+	map<Musics::Id, unique_ptr<sf::Music>>		m_music;
+	map<Videoes::Id, unique_ptr<VideoSource>>	m_videoes;
 };

@@ -9,6 +9,8 @@ add_sources(
 	General/Entity.cpp
 	General/ResourceHandler.cpp
 	General/GameScene.cpp
+	General/VideoSource.cpp
+	General/Video.cpp
 )
 
 add_sources(
@@ -24,4 +26,9 @@ add_sources(
 add_sources(
 	MainMenu/MainMenu.cpp
 	MainMenu/PushButton.cpp
+	MainMenu/TextEdit.cpp
+)
+
+add_sources(
+	Cutscene/Cutscene.cpp
 )

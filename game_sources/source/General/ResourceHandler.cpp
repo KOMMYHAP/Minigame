@@ -1,6 +1,7 @@
 #include "stdafx_game.h"
 
 #include "General/ResourceHandler.h"
+#include "General/VideoSource.h"
 
 #include "LogMessageManager.h" 
 
@@ -98,7 +99,7 @@ const sf::Font* ResourceHandler::GetFont(Fonts::Id id) const
 	return nullptr;
 }
 
-bool ResourceHandler::LoadMusic(Music::Id id, const string & path) 
+bool ResourceHandler::LoadMusic(Musics::Id id, const string & path) 
 {
 	if (m_music.find(id) != m_music.end())
 	{
@@ -115,7 +116,7 @@ bool ResourceHandler::LoadMusic(Music::Id id, const string & path)
 	return success;
 }
 
-sf::Music* ResourceHandler::GetMusic(Music::Id id) const
+sf::Music* ResourceHandler::GetMusic(Musics::Id id) const
 {
 	auto it = m_music.find(id);
 	if (it != m_music.end())
@@ -123,6 +124,34 @@ sf::Music* ResourceHandler::GetMusic(Music::Id id) const
 		return it->second.get();
 	}
 	LOG_ERROR("ResourceHandler could not find music %1%!", id);
+	return nullptr;
+}
+
+bool ResourceHandler::LoadVideo(Videoes::Id id, const string& path)
+{
+	if (m_videoes.find(id) != m_videoes.end())
+	{
+		return true;
+	}
+
+	auto video = make_unique<VideoSource>();
+	bool success = video->LoadFromFile(path);
+	if (success)
+	{
+		m_videoes[id] = move(video);
+	}
+
+	return success;
+}
+
+const VideoSource* ResourceHandler::GetVideo(Videoes::Id id) const
+{
+	auto it = m_videoes.find(id);
+	if (it != m_videoes.end())
+	{
+		return it->second.get();
+	}
+	LOG_ERROR("ResourceHandler could not find video %1%!", id);
 	return nullptr;
 }
 

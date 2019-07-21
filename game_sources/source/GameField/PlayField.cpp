@@ -7,6 +7,7 @@
 
 #include "General/ResourceHandler.h"
 #include "General/InputController.h"
+#include "General/Video.h"
 
 #include "LogMessageManager.h"
 #include "GameField/HealthPack.h"
@@ -69,8 +70,18 @@ void PlayField::OnStartScene()
 	auto resources = m_callback->GetResources();
 	auto window = m_callback->GetRenderWindow();
 
-	resources->LoadMusic(Music::PLAYFIELD, "Resources/test.ogg");
-	if (auto ptr = resources->GetMusic(Music::PLAYFIELD))
+	auto background = make_shared<Video>();
+	assert(resources->LoadVideo(Videoes::PLAYFIELD_BACKGROUND, "Resources/game_background.mp4"));
+	if (auto ptr = resources->GetVideo(Videoes::PLAYFIELD_BACKGROUND))
+	{
+		m_videoBackground = background;
+		background->Initialize(ptr, true);
+		background->SetSize(window->getSize());
+		background->Play();
+	}
+
+	assert(resources->LoadMusic(Musics::PLAYFIELD, "Resources/test.ogg"));
+	if (auto ptr = resources->GetMusic(Musics::PLAYFIELD))
 	{
 		ptr->setLoop(true);
 		ptr->play();
@@ -98,11 +109,12 @@ void PlayField::OnStartScene()
 	auto itemsHandler = make_shared<ItemsHandler>();
 	{
 		itemsHandler->Initialize(shared_from_this(), player);
-		itemsHandler->SetMaximumSnowflakes(15);
-		itemsHandler->SetMaximumHealthPack(1);
+		// itemsHandler->SetMaximumSnowflakes(15);
+		// itemsHandler->SetMaximumHealthPack(1);
 		itemsHandler->Subscribe(topPanel);	
 	}
-
+	
+	m_entities.emplace_back(background);
 	m_entities.emplace_back(itemsHandler);
 	m_entities.emplace_back(player);
 	m_entities.emplace_back(topPanel);
@@ -111,9 +123,13 @@ void PlayField::OnStartScene()
 void PlayField::OnEndScene()
 {
 	LOG_MESSAGE("Scene [PlayField] completed.");
-	if (auto ptr = GetResources()->GetMusic(Music::PLAYFIELD))
+	if (auto ptr = GetResources()->GetMusic(Musics::PLAYFIELD))
 	{
 		ptr->stop();
+	}
+	if (auto video = m_videoBackground.lock())
+	{
+		video->Stop();
 	}
 }
 
@@ -129,10 +145,15 @@ void PlayField::ProcessInput()
 
 	if (input->IsJustPressed(sf::Keyboard::P))
 	{
-		if (auto music = GetResources()->GetMusic(Music::PLAYFIELD))
+		if (auto music = GetResources()->GetMusic(Musics::PLAYFIELD))
 		{
 			m_onPause ? music->play() : music->pause();
 		}
+		if (auto video = m_videoBackground.lock())
+		{
+			m_onPause ? video->Play() : video->Pause();	
+		}
+
 		m_onPause = !m_onPause;
 	}
 

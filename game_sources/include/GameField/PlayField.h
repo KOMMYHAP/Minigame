@@ -1,9 +1,9 @@
 #pragma once
 
-// #include "General/Entity.h"
 #include "General/GameListener.h"
 #include "General/GameScene.h"
 
+class Video;
 class Entity;
 class Player;
 class SnowflakeHandler;
@@ -42,6 +42,7 @@ public:
 private:
 	map<Event, vector<Action>>			m_actions;
 	vector<shared_ptr<Entity>>			m_entities;
+	weak_ptr<Video>						m_videoBackground;
 
 	bool								m_isLoaded {false};
 	bool								m_onPause {false};

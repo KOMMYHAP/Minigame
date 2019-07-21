@@ -36,19 +36,7 @@ void MainMenu::OnStartScene()
 			m_callback->RequireScene(GameScenes::PLAYFIELD);
 		});	
 		m_entities.push_back(start);
-		m_startGameButton = start;
 	}
-
-	/*auto setName = make_shared<PushButton>();
-	{
-		auto buttonRect = sf::FloatRect(250, 350, 300, 100);
-		setName->Initialize(shared_from_this(), buttonRect, "Enter Name");
-		setName->SetOnClick([]()
-		{
-			LOG_MESSAGE("Enter you name:");
-		});	
-		m_entities.push_back(setName);
-	}*/
 
 	auto exit = make_shared<PushButton>();
 	{

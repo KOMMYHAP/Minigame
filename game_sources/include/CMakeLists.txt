@@ -9,6 +9,8 @@ add_sources(
 	General/Entity.h
 	General/ResourceHandler.h
 	General/GameScene.h
+	General/VideoSource.h
+	General/Video.h
 )
 
 add_sources(
@@ -24,4 +26,9 @@ add_sources(
 add_sources(
 	MainMenu/MainMenu.h
 	MainMenu/PushButton.h
+	MainMenu/TextEdit.h
+)
+
+add_sources(
+	Cutscene/Cutscene.h
 )
