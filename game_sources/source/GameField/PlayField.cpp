@@ -100,7 +100,7 @@ void PlayField::OnStartScene()
 	auto itemsHandler = make_shared<ItemsHandler>();
 	{
 		itemsHandler->Initialize(shared_from_this(), player);
-		itemsHandler->SetMaximumSnowflakes(15);
+		// itemsHandler->SetMaximumSnowflakes(15);
 		itemsHandler->SetMaximumHealthPack(1);
 		itemsHandler->Subscribe(topPanel);
 		m_entities.emplace_back(itemsHandler);

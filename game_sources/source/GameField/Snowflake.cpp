@@ -26,7 +26,7 @@ void Snowflake::Initialize(shared_ptr<PlayField> playfield)
 		m_sprite.setTexture(*ptr);	
 	}
 	
-	m_velocity = {m_jitter.maxVelocity, m_velocityY};
+	m_velocity = {m_speedSettings.jitter.velocityX, m_speedSettings.velocityY};
 
 	auto random = playfield->GetRandom();
 
@@ -38,10 +38,10 @@ void Snowflake::Initialize(shared_ptr<PlayField> playfield)
 void Snowflake::Update(float dt)
 {
 	auto && playfieldBbox = GetPlayField()->GetBBox();
-	
 	auto nextBbox = GetBBox();
-	nextBbox.left += m_velocity.x;
-	nextBbox.top += m_velocity.y;
+	auto step = m_velocity * dt;
+	nextBbox.left += step.x;
+	nextBbox.top += step.y;
 
 	if (nextBbox.left <= playfieldBbox.left)
 	{
@@ -53,16 +53,16 @@ void Snowflake::Update(float dt)
 	}
 	else 
 	{
-		if (std::abs(m_jitter.offset) >= m_jitter.maxOffset)
+		if (std::abs(m_speedSettings.jitter.offset) >= m_speedSettings.jitter.maxOffset)
 		{
 			m_velocity.x *= -1;
 		}
 		
-		m_jitter.offset += m_velocity.x;
+		m_speedSettings.jitter.offset += m_velocity.x;
 	}
 
-	move(m_velocity);
-	rotate(m_angularVelocity);
+	move(step);
+	rotate(m_speedSettings.angularVelocity * dt);
 }
 
 sf::FloatRect Snowflake::GetBBox() const
