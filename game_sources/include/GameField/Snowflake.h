@@ -14,7 +14,7 @@ public:
 
 	void Initialize(shared_ptr<PlayField> playfield);
 
-	void Update(size_t dt) override;
+	void Update(float dt) override;
 	
 	sf::FloatRect GetBBox() const override;
 

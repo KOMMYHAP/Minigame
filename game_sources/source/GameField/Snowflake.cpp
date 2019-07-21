@@ -35,7 +35,7 @@ void Snowflake::Initialize(shared_ptr<PlayField> playfield)
 	m_velocity.x  *= toLeft ? -1.0f : 1.0f;
 }
 
-void Snowflake::Update(size_t dt)
+void Snowflake::Update(float dt)
 {
 	auto && playfieldBbox = GetPlayField()->GetBBox();
 	

@@ -141,7 +141,7 @@ void PlayField::ProcessInput()
 	}
 }
 
-void PlayField::Update(size_t dt)
+void PlayField::Update(float dt)
 {
 	if (m_onPause)
 	{

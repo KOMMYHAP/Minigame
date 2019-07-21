@@ -29,7 +29,7 @@ public:
 	void Initialize(shared_ptr<PlayField> playfield, shared_ptr<Player> player);
 
 	void ProcessInput() override;
-	void Update(size_t dt) override;
+	void Update(float dt) override;
 	
 	void SetMaximumSnowflakes(size_t number) { m_maxSnowflakeNumber = number; }
 	void SetMaximumHealthPack(size_t number) { m_maxHealthPackNumber = number; }

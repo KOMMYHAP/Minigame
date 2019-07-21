@@ -43,6 +43,6 @@ public:
 	virtual void OnEndScene() = 0;
 
 	virtual void ProcessInput() = 0;
-	virtual void Update(size_t ms) = 0;
+	virtual void Update(float ms) = 0;
 	virtual void Draw(sf::RenderWindow & window) = 0;
 };

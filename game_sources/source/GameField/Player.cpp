@@ -9,7 +9,6 @@
 #include "LogMessageManager.h"
 
 Player::Player()
-	: m_maxVelocity(15.f, -20.f)
 {
 }
 
@@ -38,22 +37,24 @@ void Player::ProcessInput()
 	
 	if (input->IsKeyDown(sf::Keyboard::A) || input->IsKeyDown(sf::Keyboard::Left))
 	{
-		m_velocity.x = -m_maxVelocity.x;
+		m_velocity.x = -m_initialVelocity.x;
 	}
 	else if (input->IsKeyDown(sf::Keyboard::D) || input->IsKeyDown(sf::Keyboard::Right))
 	{
-		m_velocity.x = m_maxVelocity.x;	
+		m_velocity.x = m_initialVelocity.x;	
 	}
 	
 }
 
-void Player::Update(size_t dt)
+void Player::Update(float dt)
 {	
+	sf::Vector2f step = m_velocity * dt;
+
 	auto && playfieldRect = GetPlayField()->GetBBox();
 
 	auto nextBbox = GetBBox();
-	nextBbox.left += m_velocity.x;
-	nextBbox.top += m_velocity.y;
+	nextBbox.left += step.x;
+	nextBbox.top += step.y;
 
 	if (nextBbox.left <= playfieldRect.left)
 	{
@@ -65,11 +66,11 @@ void Player::Update(size_t dt)
 	}
 	else
 	{
-		move(m_velocity);	
+		move(step);	
 	}
 
-	UpdateMoving();
-	UpdateJump();
+	UpdateMoving(dt);
+	UpdateJump(dt);
 }
 
 sf::FloatRect Player::GetBBox() const
@@ -81,29 +82,29 @@ void Player::CreateJump()
 {
 	m_jump = make_unique<JumpHelper>();
 	m_jump->startY = getPosition().y;
-	m_jump->endY = m_jump->startY - m_jump->m_jumpHeight;
-	m_velocity.y = m_maxVelocity.y;
+	m_jump->endY = m_jump->startY - m_jump->jumpHeight;
+	m_velocity.y = m_initialVelocity.y;
 }
 
-void Player::UpdateJump()
+void Player::UpdateJump(float dt)
 {
 	if (m_jump)
 	{
 		if (m_jump->isFlyingUp)
 		{
-			m_velocity.y = std::min(m_velocity.y * m_jump->upCoef, -5.0f);
-			m_velocity.y = std::max(m_velocity.y, m_jump->endY - getPosition().y);
+			m_velocity.y -= m_jump->acceleraionUp * dt;
+			m_velocity.y = std::max(m_velocity.y, (m_jump->endY - getPosition().y) / dt);
 
 			if (getPosition().y <= m_jump->endY)
 			{
 				m_jump->isFlyingUp = false;
-				m_velocity.y = m_jump->initFlyingDownSpeed;
+				m_velocity.y = 0.0f;
 			}
 		}
 		else
 		{
-			m_velocity.y *= m_jump->downCoef;
-			m_velocity.y = std::min(m_velocity.y,  m_jump->startY - getPosition().y);
+			m_velocity.y += m_jump->acceleraionDown * dt;
+			m_velocity.y = std::min(m_velocity.y,  (m_jump->startY - getPosition().y) / dt);
 
 			if (getPosition().y >= m_jump->startY)
 			{
@@ -113,10 +114,10 @@ void Player::UpdateJump()
 	}
 }
 
-void Player::UpdateMoving()
+void Player::UpdateMoving(float dt)
 {
 	m_velocity.x *= 0.5;
-	if (std::abs(m_velocity.x) < 5.0f)
+	if (std::abs(m_velocity.x) < 30.0f)
 	{
 		m_velocity.x = 0.0;
 	}

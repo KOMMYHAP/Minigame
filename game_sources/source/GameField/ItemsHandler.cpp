@@ -26,7 +26,7 @@ void ItemsHandler::ProcessInput()
 {
 }
 
-void ItemsHandler::Update(size_t dt)
+void ItemsHandler::Update(float dt)
 {
 	TryToCreateItem();
 

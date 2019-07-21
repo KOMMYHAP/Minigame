@@ -9,7 +9,7 @@ public:
 	~Entity() override = default;
 
 	virtual void ProcessInput() {}
-	virtual void Update(size_t dt) {}
+	virtual void Update(float dt) {}
 
 	virtual sf::FloatRect GetBBox() const = 0;
 };

@@ -21,8 +21,15 @@ void MainMenu::OnStartScene()
 	
 	auto start = make_shared<PushButton>();
 	{
-		auto buttonRect = sf::FloatRect(250, 250, 300, 100);
-		start->Initialize(shared_from_this(), buttonRect, "Start Game");
+		auto buttonRect = sf::FloatRect(250, 350, 300, 100);
+		start->Initialize(shared_from_this(), buttonRect);
+
+		assert(GetResources()->LoadImage(Images::BUTTON_START, "Resources/start.png"));
+		if (auto ptr = GetResources()->GetImage(Images::BUTTON_START))
+		{
+			start->SetImage(ptr);
+		}
+
 		start->SetOnClick([this]()
 		{
 			LOG_MESSAGE("Game started!");
@@ -32,7 +39,7 @@ void MainMenu::OnStartScene()
 		m_startGameButton = start;
 	}
 
-	auto setName = make_shared<PushButton>();
+	/*auto setName = make_shared<PushButton>();
 	{
 		auto buttonRect = sf::FloatRect(250, 350, 300, 100);
 		setName->Initialize(shared_from_this(), buttonRect, "Enter Name");
@@ -41,12 +48,19 @@ void MainMenu::OnStartScene()
 			LOG_MESSAGE("Enter you name:");
 		});	
 		m_entities.push_back(setName);
-	}
+	}*/
 
 	auto exit = make_shared<PushButton>();
 	{
 		auto buttonRect = sf::FloatRect(250, 450, 300, 100);
-		exit->Initialize(shared_from_this(), buttonRect, "Exit");
+		exit->Initialize(shared_from_this(), buttonRect);
+		
+		assert(GetResources()->LoadImage(Images::BUTTON_EXIT, "Resources/exit.png"));
+		if (auto ptr = GetResources()->GetImage(Images::BUTTON_EXIT))
+		{
+			exit->SetImage(ptr);
+		}
+
 		exit->SetOnClick([this]()
 		{
 			LOG_MESSAGE("Game exited!");
@@ -71,7 +85,7 @@ void MainMenu::ProcessInput()
 	}
 }
 
-void MainMenu::Update(size_t dt)
+void MainMenu::Update(float dt)
 {
 	for (auto && entity : m_entities)
 	{

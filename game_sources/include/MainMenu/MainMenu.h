@@ -19,7 +19,7 @@ public:
 	void OnEndScene() override;
 
 	void ProcessInput() override;
-	void Update(size_t dt) override;
+	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
 	shared_ptr<InputController> GetController() const { return m_callback->GetController(); }

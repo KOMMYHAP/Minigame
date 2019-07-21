@@ -12,13 +12,13 @@ void HealthPack::Initialize(shared_ptr<PlayField> playfield)
 	if (auto ptr = resources->GetImage(Images::BEER))
 	{
 		m_sprite.setTexture(*ptr);
-		m_sprite.scale(0.2f, 0.2f);
+		m_sprite.scale(0.14f, 0.14f);
 	}
 }
 
-void HealthPack::Update(size_t dt)
+void HealthPack::Update(float dt)
 {
-	move(0, 1.3f);
+	move(0, 5.0f);
 }
 
 sf::FloatRect HealthPack::GetBBox() const

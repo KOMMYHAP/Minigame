@@ -19,6 +19,10 @@ namespace Images
 		SNOWFLAKE,
 		HEART,
 		BEER,
+		BUTTON_START,
+		BUTTON_EXIT,
+		BACKGROUND_1,
+		BACKGROUND_2,
 		COUNT	
 	};
 }

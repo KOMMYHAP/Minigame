@@ -31,16 +31,18 @@ void Game::Initialize(int argc, char** argv)
 	playfield->Initialize(sceneCallback);
 	m_scenes[GameScenes::PLAYFIELD] = playfield;
 
-	SetNextScene(GameScenes::MAIN_MENU);
+	SetNextScene(GameScenes::PLAYFIELD);
 }
 
 void Game::Run()
 {
-	const size_t msPerFrame = 17;
-	int dt = 0;
+	const float sPerFrame = 1.0f / 60.f;
+	float dt = 0;
 	sf::Clock clock;
 
 	shared_ptr<GameScene> scene;
+
+	float gameSpeed = 1.0f;
 	
     while (m_window->isOpen() && !m_needExit)
     {
@@ -51,6 +53,19 @@ void Game::Run()
 		if (m_input->IsWindowClosingRequired())
 		{
 			SetNeedExit();
+		}
+
+		if (m_input->IsKeyDown(sf::Keyboard::Hyphen))
+		{
+			gameSpeed = 2.5f;
+		} 
+    	else if (m_input->IsKeyDown(sf::Keyboard::Equal))
+    	{
+			gameSpeed = 0.1f;
+    	}
+		else
+		{
+			gameSpeed = 1.0f;
 		}
 
 		if (m_isRequiredNextScene)
@@ -66,21 +81,21 @@ void Game::Run()
 		
 		scene->ProcessInput();
 
-		scene->Update(msPerFrame);
-		while (dt >= msPerFrame)
+		scene->Update(sPerFrame * gameSpeed);
+		while (dt >= sPerFrame)
 		{
-			scene->Update(msPerFrame);
-			dt -= msPerFrame;
+			scene->Update(sPerFrame * gameSpeed);
+			dt -= sPerFrame;
 		}
 
         m_window->clear();
         scene->Draw(*m_window);
         m_window->display();
 		
-		dt += clock.getElapsedTime().asMilliseconds();
-		if (dt < msPerFrame)
+		dt += clock.getElapsedTime().asSeconds();
+		if (dt < sPerFrame)
 		{
-			sf::sleep(sf::milliseconds(msPerFrame - dt));
+			sf::sleep(sf::seconds(sPerFrame - dt));
 		}
     }
 }

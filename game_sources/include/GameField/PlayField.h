@@ -28,7 +28,7 @@ public:
 	void OnEndScene() override;
 
 	void ProcessInput() override;
-	void Update(size_t dt) override;
+	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 	
 	void Call(GameEvent event, shared_ptr<Entity> sender) override;

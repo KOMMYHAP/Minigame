@@ -12,7 +12,7 @@ public:
 	void Initialize(shared_ptr<PlayField> playField);
 
 	void ProcessInput() override;
-	void Update(size_t dt) override;
+	void Update(float dt) override;
 
 	sf::FloatRect GetBBox() const override;
 
@@ -21,10 +21,9 @@ public:
 private:
 	struct JumpHelper
 	{
-		const float		upCoef					{0.8f};
-		const float		downCoef				{1.2f};
-		const float		initFlyingDownSpeed		{5.0f};
-		const float		m_jumpHeight			{100.f};
+		const float		acceleraionUp			{2500};
+		const float		acceleraionDown 		{3500};
+		const float		jumpHeight				{100.f};
 
 		float	startY	{0.f};
 		float	endY	{0.f};
@@ -33,16 +32,16 @@ private:
 	};
 
 	void CreateJump();
-	void UpdateJump();
-	void UpdateMoving();
+	void UpdateJump(float dt);
+	void UpdateMoving(float dt);
 
 	bool LoadAll();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	const sf::Vector2f					m_maxVelocity;
+	const sf::Vector2f					m_initialVelocity	{500.0f, 0.f};
 
 	bool								m_jumpIsPressed {false};
-	bool								m_isStopping {false};
+	bool								m_isStopping	{false};
 
 	sf::Vector2f						m_velocity;
 	unique_ptr<JumpHelper>				m_jump;

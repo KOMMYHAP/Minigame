@@ -11,52 +11,58 @@ PushButton::PushButton()
 
 }
 
-void PushButton::Initialize(shared_ptr<MainMenu> mainMenu, const sf::FloatRect & rect, const string & text)
+void PushButton::Initialize(shared_ptr<MainMenu> mainMenu, const sf::FloatRect & rect)
 {
-	m_input = mainMenu->GetController();
+	m_mainMenu = mainMenu;
+	m_buttonRect = rect;
 
 	auto resources = mainMenu->GetResources();
-
-	resources->LoadTexture(Textures::BUTTON, "Resources/button.png");
-	if (auto ptr = resources->GetTexture(Textures::BUTTON))
+	if (auto defaultTexture = resources->GetDefaultTexture())
 	{
-		m_sprite.setTexture(*ptr);
-	}
-	else if (auto defaultTexture = resources->GetDefaultTexture())
-	{
-		m_sprite.setTexture(*defaultTexture);
-	}
-
-	sf::IntRect textureRect = {0, 0, int(rect.width), int(rect.height)};
-	m_sprite.setTextureRect(textureRect);
-
-	resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf");
-	if (auto ptr = resources->GetFont(Fonts::DEFAULT))
-	{
-		m_text.setFont(*ptr);
-		m_text.setCharacterSize(36);
-		m_text.setFillColor(sf::Color::White);
-		m_text.setOutlineColor(sf::Color::Black);
-		m_text.setString(text);
-
-		auto textBbox = m_text.getGlobalBounds();
-		textBbox.width = std::min(textBbox.width, rect.width);
-		textBbox.height = std::min(textBbox.height, rect.height);
-		
-		auto spriteBbox = m_sprite.getGlobalBounds();
-		sf::Vector2f offset = {
-			(spriteBbox.width - textBbox.width - textBbox.left) / 2.0f,
-			(spriteBbox.height - textBbox.height) / 2.0f - textBbox.top
-		};
-		m_text.move(offset);
+		SetTexture(defaultTexture);
 	}
 
 	move(rect.left, rect.top);
 }
 
+void PushButton::SetTexture(const sf::Texture* texture)
+{
+	m_sprite.setTexture(*texture);
+	sf::IntRect textureRect = {0, 0, int(m_buttonRect.width), int(m_buttonRect.height)};
+	m_sprite.setTextureRect(textureRect);
+}
+
+void PushButton::SetImage(const sf::Texture* texture)
+{
+	m_sprite.setTexture(*texture, true);
+	auto size = texture->getSize();
+	m_sprite.setScale(m_buttonRect.width / size.x, m_buttonRect.height / size.y);
+}
+
+void PushButton::SetText(const string& text, size_t size, sf::Color fillColor, sf::Color outlineColor)
+{
+	if (!m_fontLoaded)
+	{
+		auto resources = m_mainMenu.lock()->GetResources();
+
+		resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf");
+		if (auto ptr = resources->GetFont(Fonts::DEFAULT))
+		{
+			m_text.setFont(*ptr);
+			m_text.setCharacterSize(size);
+			m_text.setFillColor(fillColor);
+			m_text.setOutlineColor(outlineColor);
+		}
+		m_fontLoaded = true;
+	}
+
+	m_text.setString(text);
+	UpdateTextGeometry();
+}
+
 void PushButton::ProcessInput()
 {
-	auto input = m_input.lock();
+	auto input = m_mainMenu.lock()->GetController();
 	auto pos = input->GetMousePosition();
 	auto bbox = GetBBox();
 	bool isInside = bbox.contains(float(pos.x), float(pos.y));
@@ -77,7 +83,7 @@ void PushButton::ProcessInput()
 	}
 }
 
-void PushButton::Update(size_t dt)
+void PushButton::Update(float dt)
 {
 }
 
@@ -118,6 +124,21 @@ void PushButton::OnRelease(bool isInside)
 	}
 }
 
+void PushButton::UpdateTextGeometry()
+{
+	auto textBbox = m_text.getGlobalBounds();
+	auto spriteBbox = m_sprite.getGlobalBounds();
+
+	textBbox.width = std::min(textBbox.width, spriteBbox.width);
+	textBbox.height = std::min(textBbox.height, spriteBbox.height);
+
+	sf::Vector2f offset = {
+		(spriteBbox.width - textBbox.width - textBbox.left) / 2.0f,
+		(spriteBbox.height - textBbox.height) / 2.0f - textBbox.top
+	};
+	m_text.move(offset);
+}
+
 void PushButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	auto combined = getTransform() * (m_pressed ? m_pressingTrasform : sf::Transform::Identity);
@@ -125,5 +146,4 @@ void PushButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_sprite, states);
 	states.transform.combine(m_sprite.getTransform());
 	target.draw(m_text, states);
-
 }
