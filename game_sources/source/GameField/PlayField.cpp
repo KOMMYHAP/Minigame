@@ -87,24 +87,25 @@ void PlayField::OnStartScene()
 		player->Initialize(shared_from_this());
 		auto && bbox = GetBBox();
 		player->setPosition(bbox.left + bbox.width / 2.f - player->GetBBox().width / 2.f, bbox.top + bbox.height - player->GetBBox().height);
-		m_entities.emplace_back(player);
 	}
 
 	auto topPanel = make_shared<TopPanel>();
 	{
 		topPanel->Initialize(shared_from_this());
 		topPanel->Subscribe(shared_from_this());
-		m_entities.emplace_back(topPanel);
 	}
 
 	auto itemsHandler = make_shared<ItemsHandler>();
 	{
 		itemsHandler->Initialize(shared_from_this(), player);
-		// itemsHandler->SetMaximumSnowflakes(15);
+		itemsHandler->SetMaximumSnowflakes(15);
 		itemsHandler->SetMaximumHealthPack(1);
-		itemsHandler->Subscribe(topPanel);
-		m_entities.emplace_back(itemsHandler);
+		itemsHandler->Subscribe(topPanel);	
 	}
+
+	m_entities.emplace_back(itemsHandler);
+	m_entities.emplace_back(player);
+	m_entities.emplace_back(topPanel);
 }
 
 void PlayField::OnEndScene()
