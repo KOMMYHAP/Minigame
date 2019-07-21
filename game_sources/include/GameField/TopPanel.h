@@ -80,7 +80,7 @@ private:
 	void UpdateText() const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	
-	size_t const				m_minBonus		{5};
+	size_t const				m_minBonus		{7};
 	size_t const				m_maxCoef		{999};
 	size_t const				m_maxNumber		{999999999ULL};
 	size_t const				m_scoresForWin	{999999999ULL};
