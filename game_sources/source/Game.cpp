@@ -7,6 +7,7 @@
 #include "GameField/PlayField.h"
 #include "MainMenu/MainMenu.h"
 #include "LogMessageManager.h"
+#include "Cutscene/Cutscene.h"
 
 Game::Game()
 	: m_window(make_shared<sf::RenderWindow>())
@@ -17,7 +18,7 @@ Game::Game()
 
 void Game::Initialize(int argc, char** argv)
 {
-	m_window->create(sf::VideoMode(800, 600), "Snowflake", sf::Style::Titlebar | sf::Style::Close);
+	m_window->create(sf::VideoMode(1000, 600), "Snowflake", sf::Style::Titlebar | sf::Style::Close);
 	m_window->setKeyRepeatEnabled(false);
 	
 	auto sceneCallback = make_shared<GameSceneCallback>();
@@ -26,12 +27,16 @@ void Game::Initialize(int argc, char** argv)
 	auto menu = make_shared<MainMenu>();
 	menu->Initialize(sceneCallback);
 	m_scenes[GameScenes::MAIN_MENU] = menu;
-
+	
 	auto playfield = make_shared<PlayField>();
 	playfield->Initialize(sceneCallback);
 	m_scenes[GameScenes::PLAYFIELD] = playfield;
+	
+	auto cutscene = make_shared<Cutscene>();
+	cutscene->Initialize(sceneCallback);
+	m_scenes[GameScenes::CUTSCENE] = cutscene;
 
-	SetNextScene(GameScenes::PLAYFIELD);
+	SetNextScene(GameScenes::CUTSCENE);
 }
 
 void Game::Run()

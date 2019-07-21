@@ -18,10 +18,10 @@ void MainMenu::OnStartScene()
 	{
 		return;
 	}
-	
+
 	auto start = make_shared<PushButton>();
 	{
-		auto buttonRect = sf::FloatRect(250, 350, 300, 100);
+		auto buttonRect = sf::FloatRect(350, 350, 300, 100);
 		start->Initialize(shared_from_this(), buttonRect);
 
 		assert(GetResources()->LoadImage(Images::BUTTON_START, "Resources/start.png"));
@@ -40,7 +40,7 @@ void MainMenu::OnStartScene()
 
 	auto exit = make_shared<PushButton>();
 	{
-		auto buttonRect = sf::FloatRect(250, 450, 300, 100);
+		auto buttonRect = sf::FloatRect(350, 450, 300, 100);
 		exit->Initialize(shared_from_this(), buttonRect);
 		
 		assert(GetResources()->LoadImage(Images::BUTTON_EXIT, "Resources/exit.png"));

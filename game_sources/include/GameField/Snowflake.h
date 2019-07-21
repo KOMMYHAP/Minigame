@@ -18,7 +18,7 @@ struct SnowflakeSpeedSettings
 
 	} jitter;
 	
-	float			velocityY		{72.0f};
+	float			velocityY		{60.0f};
 	float			angularVelocity	{30.0f};
 };
 

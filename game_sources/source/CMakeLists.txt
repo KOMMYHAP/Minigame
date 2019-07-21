@@ -31,4 +31,6 @@ add_sources(
 
 add_sources(
 	Cutscene/Cutscene.cpp
+	Cutscene/Character.cpp
+	Cutscene/TextBox.cpp
 )

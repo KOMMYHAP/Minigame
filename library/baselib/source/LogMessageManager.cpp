@@ -15,7 +15,7 @@ LogMessageManager::LogMessageManager()
 {
 	namespace fs = std::filesystem;
 	auto path = fs::current_path() / fs::path("minigame_log.txt");
-	if (fs::exists(path))
+	/*if (fs::exists(path))
 	{
 		fs::path to;
 		for (size_t i = 0; i < 999999; ++i)
@@ -31,7 +31,7 @@ LogMessageManager::LogMessageManager()
 		{
 			fs::remove(path);
 		}
-	}
+	}*/
 
 	auto filename = path.string();
 	m_logFilename = filename;

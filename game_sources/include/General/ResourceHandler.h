@@ -18,13 +18,13 @@ namespace Images
 	enum Id
 	{
 		GIRL,
+		BOY,
 		SNOWFLAKE,
 		HEART,
 		BEER,
 		BUTTON_START,
 		BUTTON_EXIT,
-		BACKGROUND_1,
-		BACKGROUND_2,
+		BACKGROUND,
 		COUNT	
 	};
 }

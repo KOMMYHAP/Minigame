@@ -7,7 +7,6 @@ class PushButton;
 class MainMenu : public GameScene, public enable_shared_from_this<MainMenu>
 {
 public:
-
 	void Initialize(shared_ptr<GameSceneCallback> callback);
 
 	void OnStartScene() override;

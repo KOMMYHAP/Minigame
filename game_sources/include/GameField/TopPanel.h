@@ -54,8 +54,9 @@ private:
 	const char *			m_format	{"%03d"};
 	const int				m_maxLifes	{999};
 	int						m_lifes		{10};
-
-	sf::Sprite				m_sprite;
+	
+	sf::Sprite				m_healthSprite;
+	sf::Sprite				m_background;
 	unique_ptr<sf::Text>	m_text;
 };
 
@@ -91,4 +92,5 @@ private:
 	size_t						m_number		{0};
 
 	unique_ptr<sf::Text>		m_text;
+	sf::Sprite					m_sprite;
 };

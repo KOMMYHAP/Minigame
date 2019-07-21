@@ -36,7 +36,7 @@ void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
 		{
 		case GameEvent::CUTSCENE_TRIGGER:
 		{
-			// m_callback->RequireScene(GameScenes::CUTSCENE);
+			m_callback->RequireScene(GameScenes::CUTSCENE);
 			LOG_MESSAGE("-----> YOU ARE WINNER! <-----");
 			break;
 		}
@@ -80,7 +80,10 @@ void PlayField::OnStartScene()
 		background->Play();
 	}
 
-	assert(resources->LoadMusic(Musics::PLAYFIELD, "Resources/test.ogg"));
+	if (!resources->LoadMusic(Musics::PLAYFIELD, "Resources/playfield.ogg"))
+	{
+		LOG_ERROR("Music not found!");
+	}
 	if (auto ptr = resources->GetMusic(Musics::PLAYFIELD))
 	{
 		ptr->setLoop(true);
@@ -109,8 +112,8 @@ void PlayField::OnStartScene()
 	auto itemsHandler = make_shared<ItemsHandler>();
 	{
 		itemsHandler->Initialize(shared_from_this(), player);
-		// itemsHandler->SetMaximumSnowflakes(15);
-		// itemsHandler->SetMaximumHealthPack(1);
+		itemsHandler->SetMaximumSnowflakes(15);
+		itemsHandler->SetMaximumHealthPack(1);
 		itemsHandler->Subscribe(topPanel);	
 	}
 	

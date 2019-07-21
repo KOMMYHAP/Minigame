@@ -26,8 +26,8 @@ void TopPanel::Initialize(shared_ptr<PlayField> playfield)
 		auto bbox = m_scores->GetBBox();
 
 		sf::Vector2f pos = { 
-			playfieldBbox.left + playfieldBbox.width - bbox.width - 20.0f, 
-			playfieldBbox.top + 10.0f
+			playfieldBbox.left + playfieldBbox.width - bbox.width, 
+			playfieldBbox.top
 		};
 		m_scores->setPosition(pos);	
 	}
@@ -36,8 +36,8 @@ void TopPanel::Initialize(shared_ptr<PlayField> playfield)
 	{
 		m_health->Initialize(playfield->GetResources());
 		sf::Vector2f pos = { 
-			playfieldBbox.left + 20.0f, 
-			playfieldBbox.top + 10.0f
+			playfieldBbox.left, 
+			playfieldBbox.top
 		};
 		m_health->setPosition(pos);	
 	}
@@ -115,6 +115,13 @@ HealthPanel::HealthPanel()
 
 void HealthPanel::Initialize(shared_ptr<ResourceHandler> resources)
 {
+	assert(resources->LoadImage(Images::BACKGROUND, "Resources/background.png"));
+	if (auto ptr = resources->GetImage(Images::BACKGROUND))
+	{
+		m_background.setTexture(*ptr);
+		m_background.setScale(200.0f / ptr->getSize().x, 50.0f / ptr->getSize().y);
+	}
+
 	assert(resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf"));
 	if (auto ptr = resources->GetFont(Fonts::DEFAULT))
 	{
@@ -122,14 +129,16 @@ void HealthPanel::Initialize(shared_ptr<ResourceHandler> resources)
 		m_text->setCharacterSize(50);
 		m_text->setFillColor(sf::Color::White);
 		m_text->setOutlineColor(sf::Color::Black);
-		m_text->setPosition(60.0f, -20.0f);
+		m_text->setPosition(100.0f, -15.0f);
+		UpdateText();
 	}
 
 	assert(resources->LoadImage(Images::HEART, "Resources/heart.png"));
 	if (auto ptr = resources->GetImage(Images::HEART))
 	{
-		m_sprite.setTexture(*ptr);
-		m_sprite.scale(0.2f, 0.2f);
+		m_healthSprite.setTexture(*ptr);
+		m_healthSprite.scale(0.2f, 0.2f);
+		m_healthSprite.move(30, 5);
 	}
 }
 
@@ -145,7 +154,7 @@ void HealthPanel::OnTouchingHealthPack()
 
 sf::FloatRect HealthPanel::GetBBox() const
 {
-	return getTransform().transformRect(m_sprite.getGlobalBounds());
+	return getTransform().transformRect(m_healthSprite.getGlobalBounds());
 }
 
 void HealthPanel::UpdateText() const
@@ -163,10 +172,11 @@ void HealthPanel::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(getTransform());
 
-	target.draw(m_sprite, states);
-
-	UpdateText();
+	UpdateText();	
+	target.draw(m_background, states);
+	target.draw(m_healthSprite, states);
 	target.draw(*m_text, states);
+
 }
 
 // |------------------- ScorePanel -------------.
@@ -180,6 +190,13 @@ ScorePanel::ScorePanel()
 
 void ScorePanel::Initialize(shared_ptr<ResourceHandler> resources)
 {
+	assert(resources->LoadImage(Images::BACKGROUND, "Resources/background.png"));
+	if (auto ptr = resources->GetImage(Images::BACKGROUND))
+	{
+		m_sprite.setTexture(*ptr);
+		m_sprite.setScale(300.0f / ptr->getSize().x, 50.0f / ptr->getSize().y);
+	}
+	
 	assert(resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf"));
 	if (auto ptr = resources->GetFont(Fonts::DEFAULT))
 	{
@@ -187,9 +204,21 @@ void ScorePanel::Initialize(shared_ptr<ResourceHandler> resources)
 		m_text->setCharacterSize(24);
 		m_text->setFillColor(sf::Color::White);
 		m_text->setOutlineColor(sf::Color::Black);
+		UpdateText();
+
+		auto textBbox = m_text->getGlobalBounds();
+		auto spriteBbox = m_sprite.getGlobalBounds();
+
+		textBbox.width = std::min(textBbox.width, spriteBbox.width);
+		textBbox.height = std::min(textBbox.height, spriteBbox.height);
+
+		sf::Vector2f offset = {
+			(spriteBbox.width - textBbox.width - textBbox.left) / 2.0f,
+			(spriteBbox.height - textBbox.height) / 2.0f - textBbox.top
+		};
+		m_text->move(offset);
 	}
 
-	UpdateText();
 }
 
 void ScorePanel::OnMiss()
@@ -211,7 +240,7 @@ void ScorePanel::OnTouch()
 
 sf::FloatRect ScorePanel::GetBBox() const
 {
-	return getTransform().transformRect(m_text->getGlobalBounds());
+	return getTransform().transformRect(m_sprite.getGlobalBounds());
 }
 
 void ScorePanel::UpdateText() const
@@ -228,6 +257,8 @@ void ScorePanel::UpdateText() const
 void ScorePanel::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(getTransform());
+	target.draw(m_sprite, states);
+	// states.transform.combine(m_sprite.getTransform());
 	UpdateText();
 	target.draw(*m_text, states);
 }
