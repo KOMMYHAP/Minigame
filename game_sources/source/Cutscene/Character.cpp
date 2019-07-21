@@ -47,6 +47,10 @@ void Character::Update(float dt)
 	rotate(stepAngle);
 	
 	m_dt += dt;
+	if (m_dt >= m_timeToMove)
+	{
+		CallAll(GameEvent::CUTSCENE_CHARACTER_MOVING_COMPLETED, shared_from_this());
+	}
 	
 	setScale(m_scale, m_scale);
 	m_scale += stepScale;
@@ -61,4 +65,12 @@ void Character::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform.combine(getTransform());
 	target.draw(m_sprite, states);
+}
+
+void Character::CallAll(GameEvent event, shared_ptr<Entity> sender) const
+{
+	for (auto && listener : m_listeners)
+	{
+		listener->Call(event, sender);
+	}
 }

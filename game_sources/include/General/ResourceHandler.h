@@ -35,6 +35,8 @@ namespace Fonts
 	{
 		DEFAULT,
 		ICE_CAPS,
+		CUTSCENE,
+		TIMES_NEW_ROMAN,
 		COUNT
 	};
 }

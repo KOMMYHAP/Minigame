@@ -2,6 +2,7 @@
 
 #include "General/GameScene.h"
 
+class TextBox;
 class Video;
 class Character;
 

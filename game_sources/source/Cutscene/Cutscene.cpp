@@ -5,6 +5,7 @@
 
 #include "General/ResourceHandler.h"
 #include "General/Video.h"
+#include "Cutscene/TextBox.h"
 
 Cutscene::Cutscene()
 {
@@ -29,14 +30,27 @@ void Cutscene::OnStartScene()
 		background->Play();
 		m_background = background;
 	}
-
+	
+	auto textBox = make_shared<TextBox>();
+	{
+		textBox->Initialize(resources);
+	}
+	
 	auto character = make_shared<Character>();
 	{
 		character->Initialize(resources);
+		character->Subscribe(textBox);
+
+		auto pos = character->GetEndPosition();
+		auto bbox = textBox->GetBBox();
+		pos.y -= bbox.height + 30.f;
+		pos.x -= float(bbox.width) / 2.0f;
+		textBox->setPosition(pos);
 	}
-	
+
 	m_entities.push_back(background);
 	m_entities.push_back(character);
+	m_entities.push_back(textBox);
 }
 
 void Cutscene::OnEndScene()
