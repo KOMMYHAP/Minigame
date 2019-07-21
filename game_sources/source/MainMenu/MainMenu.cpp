@@ -19,7 +19,8 @@ void MainMenu::OnStartScene()
 		return;
 	}
 
-	assert(GetResources()->LoadFont(Fonts::ICE_CAPS, "Resources/IceCaps.ttf"));
+	auto success = GetResources()->LoadFont(Fonts::ICE_CAPS, "Resources/IceCaps.ttf");
+	assert(success);
 	{
 		if (auto ptr = GetResources()->GetFont(Fonts::ICE_CAPS))
 		{
@@ -49,7 +50,8 @@ void MainMenu::OnStartScene()
 		auto buttonRect = sf::FloatRect(350, 350, 300, 100);
 		start->Initialize(shared_from_this(), buttonRect);
 
-		assert(GetResources()->LoadImage(Images::BUTTON_START, "Resources/start.png"));
+		bool success = GetResources()->LoadImage(Images::BUTTON_START, "Resources/start.png");
+		assert(success);
 		if (auto ptr = GetResources()->GetImage(Images::BUTTON_START))
 		{
 			start->SetImage(ptr);
@@ -67,8 +69,9 @@ void MainMenu::OnStartScene()
 	{
 		auto buttonRect = sf::FloatRect(350, 450, 300, 100);
 		exit->Initialize(shared_from_this(), buttonRect);
-		
-		assert(GetResources()->LoadImage(Images::BUTTON_EXIT, "Resources/exit.png"));
+
+		bool success = GetResources()->LoadImage(Images::BUTTON_EXIT, "Resources/exit.png");
+		assert(success);
 		if (auto ptr = GetResources()->GetImage(Images::BUTTON_EXIT))
 		{
 			exit->SetImage(ptr);

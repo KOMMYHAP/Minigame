@@ -59,7 +59,8 @@ sf::FloatRect Video::GetBBox() const
 void Video::UpdateTexture() const
 {
 	auto && image = m_source->GetFrame(m_frameIndexToShow);
-	assert(m_texture->loadFromImage(image));
+	auto success = m_texture->loadFromImage(image);
+	assert(success);
 }
 
 void Video::draw(sf::RenderTarget& target, sf::RenderStates states) const

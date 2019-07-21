@@ -11,7 +11,8 @@ Character::Character()
 
 void Character::Initialize(shared_ptr<ResourceHandler> resources)
 {
-	assert(resources->LoadImage(Images::BOY, "Resources/boy.png"));
+	auto success = resources->LoadImage(Images::BOY, "Resources/boy.png");
+	assert(success);
 	if (auto ptr = resources->GetImage(Images::BOY))
 	{
 		m_sprite.setTexture(*ptr);

@@ -158,7 +158,9 @@ const VideoSource* ResourceHandler::GetVideo(Videoes::Id id) const
 sf::Texture ResourceHandler::CreateDefaultTexture()
 {
 	sf::RenderTexture defaultTexture;
-	assert(defaultTexture.create(50, 50));
+
+	auto success = defaultTexture.create(50, 50);
+	assert(success);
 	defaultTexture.setRepeated(true);
 	defaultTexture.setSmooth(true);
 

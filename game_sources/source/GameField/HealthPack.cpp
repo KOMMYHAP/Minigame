@@ -10,7 +10,8 @@ void HealthPack::Initialize(shared_ptr<PlayField> playfield)
 	auto resources = playfield->GetResources();
 	auto random = playfield->GetRandom();
 
-	assert(resources->LoadImage(Images::BEER, "Resources/beer.png"));
+	auto success = resources->LoadImage(Images::BEER, "Resources/beer.png");
+	assert(success);
 	if (auto ptr = resources->GetImage(Images::BEER))
 	{
 		m_sprite.setTexture(*ptr);

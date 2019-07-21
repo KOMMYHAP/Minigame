@@ -119,14 +119,16 @@ HealthPanel::HealthPanel()
 
 void HealthPanel::Initialize(shared_ptr<ResourceHandler> resources)
 {
-	assert(resources->LoadImage(Images::BACKGROUND, "Resources/background.png"));
+	bool success = resources->LoadImage(Images::BACKGROUND, "Resources/background.png");
+	assert(success);
 	if (auto ptr = resources->GetImage(Images::BACKGROUND))
 	{
 		m_background.setTexture(*ptr);
 		m_background.setScale(200.0f / ptr->getSize().x, 50.0f / ptr->getSize().y);
 	}
 
-	assert(resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf"));
+	success = resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf");
+	assert(success);
 	if (auto ptr = resources->GetFont(Fonts::DEFAULT))
 	{
 		m_text->setFont(*ptr);
@@ -137,7 +139,8 @@ void HealthPanel::Initialize(shared_ptr<ResourceHandler> resources)
 		UpdateText();
 	}
 
-	assert(resources->LoadImage(Images::HEART, "Resources/heart.png"));
+	success = resources->LoadImage(Images::HEART, "Resources/heart.png");
+	assert(success);
 	if (auto ptr = resources->GetImage(Images::HEART))
 	{
 		m_healthSprite.setTexture(*ptr);
@@ -194,14 +197,16 @@ ScorePanel::ScorePanel()
 
 void ScorePanel::Initialize(shared_ptr<ResourceHandler> resources)
 {
-	assert(resources->LoadImage(Images::BACKGROUND, "Resources/background.png"));
+	bool success = resources->LoadImage(Images::BACKGROUND, "Resources/background.png");
+	assert(success);
 	if (auto ptr = resources->GetImage(Images::BACKGROUND))
 	{
 		m_sprite.setTexture(*ptr);
 		m_sprite.setScale(300.0f / ptr->getSize().x, 50.0f / ptr->getSize().y);
 	}
 	
-	assert(resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf"));
+	success = resources->LoadFont(Fonts::DEFAULT, "Resources/16105.ttf");
+	assert(success);
 	if (auto ptr = resources->GetFont(Fonts::DEFAULT))
 	{
 		m_text->setFont(*ptr);

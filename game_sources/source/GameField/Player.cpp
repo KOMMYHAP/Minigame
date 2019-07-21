@@ -15,7 +15,8 @@ Player::Player()
 void Player::Initialize(shared_ptr<PlayField> playField)
 {
 	m_field = playField;
-	assert(LoadAll());
+	auto success = LoadAll();
+	assert(success);
 	if (auto ptr = GetPlayField()->GetResources()->GetImage(Images::GIRL))
 	{
 		m_sprite.setTexture(*ptr);

@@ -34,9 +34,9 @@ void Game::Initialize(int argc, char** argv)
 	
 	auto cutscene = make_shared<Cutscene>();
 	cutscene->Initialize(sceneCallback);
-	m_scenes[GameScenes::CUTSCENE] = cutscene;
+	m_scenes[GameScenes::MAIN_MENU] = cutscene;
 
-	SetNextScene(GameScenes::MAIN_MENU);
+	SetNextScene(GameScenes::CUTSCENE);
 }
 
 void Game::Run()

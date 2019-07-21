@@ -20,7 +20,8 @@ void Cutscene::OnStartScene()
 	auto resources = m_callback->GetResources();
 	
 	auto background = make_shared<Video>();
-	assert(resources->LoadVideo(Videoes::CUTSCENE, "Resources/cutscene.mp4"));
+	auto success = resources->LoadVideo(Videoes::CUTSCENE, "Resources/cutscene.mp4");
+	assert(success);
 	if (auto ptr = resources->GetVideo(Videoes::CUTSCENE))
 	{
 		background->Initialize(ptr, true);

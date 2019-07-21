@@ -73,7 +73,8 @@ void PlayField::OnStartScene()
 	auto window = m_callback->GetRenderWindow();
 
 	auto background = make_shared<Video>();
-	assert(resources->LoadVideo(Videoes::PLAYFIELD_BACKGROUND, "Resources/game_background.mp4"));
+	auto success = resources->LoadVideo(Videoes::PLAYFIELD_BACKGROUND, "Resources/game_background.mp4");
+	assert(sucess);
 	if (auto ptr = resources->GetVideo(Videoes::PLAYFIELD_BACKGROUND))
 	{
 		m_videoBackground = background;
