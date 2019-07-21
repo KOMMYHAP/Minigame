@@ -34,6 +34,7 @@ namespace Fonts
 	enum Id
 	{
 		DEFAULT,
+		ICE_CAPS,
 		COUNT
 	};
 }

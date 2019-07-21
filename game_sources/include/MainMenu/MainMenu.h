@@ -23,6 +23,7 @@ private:
 	bool								m_isLoaded {false};
 
 	vector<shared_ptr<Entity>>			m_entities;
+	sf::Text							m_text;
 
 	shared_ptr<GameSceneCallback>		m_callback;
 };

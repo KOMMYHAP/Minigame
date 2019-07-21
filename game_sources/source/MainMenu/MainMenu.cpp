@@ -19,6 +19,31 @@ void MainMenu::OnStartScene()
 		return;
 	}
 
+	assert(GetResources()->LoadFont(Fonts::ICE_CAPS, "Resources/IceCaps.ttf"));
+	{
+		if (auto ptr = GetResources()->GetFont(Fonts::ICE_CAPS))
+		{
+			m_text.setFont(*ptr);
+			m_text.setCharacterSize(175);
+			m_text.setFillColor(sf::Color(99, 180, 255));
+			m_text.setOutlineColor(sf::Color::White);
+			m_text.setOutlineThickness(10.f);
+			m_text.setLetterSpacing(1.2f);
+			m_text.setString("Snowfall");
+
+			auto textBbox = m_text.getGlobalBounds();
+			auto window = m_callback->GetRenderWindow();
+
+			textBbox.width = std::min(textBbox.width, float(window->getSize().x));
+
+			sf::Vector2f offset = {
+				(window->getSize().x - textBbox.width - textBbox.left) / 2.0f,
+				-10
+			};
+			m_text.move(offset);
+		}
+	}
+
 	auto start = make_shared<PushButton>();
 	{
 		auto buttonRect = sf::FloatRect(350, 350, 300, 100);
@@ -84,6 +109,7 @@ void MainMenu::Update(float dt)
 void MainMenu::Draw(sf::RenderWindow& window)
 {
 	sf::RenderStates states;
+	window.draw(m_text);
 	for (auto && entity : m_entities)
 	{
 		window.draw(*entity, states);
