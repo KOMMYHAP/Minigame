@@ -65,6 +65,7 @@ void TopPanel::Call(GameEvent event, shared_ptr<Entity> sender)
 			}
 			break;
 		default:
+			assert(false);
 			LOG_WARNING("Snowflake send unknown event [%1%] to a TopPanel", static_cast<size_t>(event));
 			break;
 		}	
@@ -76,8 +77,11 @@ void TopPanel::Call(GameEvent event, shared_ptr<Entity> sender)
 		case GameEvent::TOUCH_PLAYER:
 			m_health->OnTouchingHealthPack();
 			break;
+		case GameEvent::TOUCH_GROUND:
+			break;
 		default:
-			LOG_WARNING("Snowflake send unknown event [%1%] to a TopPanel", static_cast<size_t>(event));
+			assert(false);
+			LOG_WARNING("HealthPack send unknown event [%1%] to a TopPanel", static_cast<size_t>(event));
 		}
 	}
 }

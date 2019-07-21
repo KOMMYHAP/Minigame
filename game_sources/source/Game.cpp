@@ -36,7 +36,7 @@ void Game::Initialize(int argc, char** argv)
 	cutscene->Initialize(sceneCallback);
 	m_scenes[GameScenes::CUTSCENE] = cutscene;
 
-	SetNextScene(GameScenes::CUTSCENE);
+	SetNextScene(GameScenes::MAIN_MENU);
 }
 
 void Game::Run()
@@ -62,11 +62,11 @@ void Game::Run()
 
 		if (m_input->IsKeyDown(sf::Keyboard::Hyphen))
 		{
-			gameSpeed = 2.5f;
+			gameSpeed = 3.0f;
 		} 
     	else if (m_input->IsKeyDown(sf::Keyboard::Equal))
     	{
-			gameSpeed = 0.1f;
+			gameSpeed = 0.05f;
     	}
 		else
 		{

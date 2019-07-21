@@ -84,7 +84,7 @@ private:
 	size_t const				m_minBonus		{7};
 	size_t const				m_maxCoef		{999};
 	size_t const				m_maxNumber		{999999999ULL};
-	size_t const				m_scoresForWin	{999999999ULL};
+	size_t const				m_scoresForWin	{   100000ULL};
 	const char *				m_format		{"Scores: %08llu \nMultiplier:  %03llu "};
 
 	size_t						m_nextNumber	{0};

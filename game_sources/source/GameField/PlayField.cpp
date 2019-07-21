@@ -41,6 +41,7 @@ void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
 			break;
 		}
 		default:
+			assert(false);
 			LOG_WARNING("ScorePanel send unknown event [%1%] to a PlayField", static_cast<size_t>(event));
 			break;
 		}	
@@ -55,6 +56,7 @@ void PlayField::Call(GameEvent event, shared_ptr<Entity> sender)
 			LOG_MESSAGE("-----> YOU ARE LOOSER! <-----");
 			break;
 		default:
+			assert(false);
 			LOG_WARNING("HealthPanel send unknown event [%1%] to a PlayField", static_cast<size_t>(event));
 			break;
 		}
